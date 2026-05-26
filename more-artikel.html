@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artikel – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+      <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌿</span>
+        <span>TemanCerita</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link">Konselor</a></li>
+        <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+ <section class="articles-section">
+    <div class="container">
+      <div class="articles-header">
+        <div>
+          <h2 class="section-title-sm">Artikel Pilihan</h2>
+          <p class="section-subtitle">Temukan tips, penjelasan, dan insight untuk memahami dirimu lebih baik</p>
+        </div>
+
+      </div>
+      <div class="articles-grid" id="allArticlesGrid">
+        <!-- Articles will be loaded here -->
+      </div>
+    </div>
+  </section>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+  <script>
+    async function loadAllArticles() {
+      const container = document.getElementById('allArticlesGrid');
+      try {
+        const res = await fetch('http://localhost:5000/api/artikel');
+        const data = await res.json();
+        if (data.length > 0) {
+            container.innerHTML = data.map(a => `
+                <div class="article-card">
+                    <div class="article-img" style="background-image:url('${a.coverImage}'); background-size:cover;">
+                        <span class="article-tag">${(a.tags && a.tags.length > 0 ? a.tags[0] : 'Artikel')}</span>
+                    </div>
+                    <div class="article-body">
+                        <h4>${a.judul}</h4>
+                        <p>${a.konten.substring(0, 100)}...</p>
+                        <div class="article-meta"><span>${Math.ceil(a.konten.length / 1000) * 2} MIN READ</span><span>${new Date(a.tanggal).toLocaleDateString()}</span></div>
+                    </div>
+                </div>`).join('');
+        } else {
+            container.innerHTML = '<p>Tidak ada artikel yang tersedia.</p>';
+        }
+      } catch(e) { console.error("Gagal muat artikel:", e); container.innerHTML = '<p>Gagal memuat artikel.</p>'; }
+    }
+    document.addEventListener('DOMContentLoaded', loadAllArticles);
+  </script>
+  </body>
+</html>

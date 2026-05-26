@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Konselor - RICE Asesmen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #3d6b67;
+            --bg-page: #f4f5f0;
+            --input-bg: #e9e9e2;
+            --text-dark: #1a1a1a;
+            --text-gray: #666;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-page);
+            align-items: center;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--white);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .icon-top {
+            background: #bce3df;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 10px;
+            color: var(--text-dark);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-gray);
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .role-selector {
+            display: flex;
+            background: #e9e9e2;
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--text-gray);
+            transition: color 0.4s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .role-btn.active {
+            color: white;
+        }
+
+        .selector-bg {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: calc(50% - 5px);
+            height: calc(100% - 10px);
+            background: var(--primary-teal);
+            border-radius: 10px;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .role-selector.is-konselor .selector-bg {
+            transform: translateX(100%);
+        }
+
+        #registrationForm {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 15px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .password-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .password-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-teal);
+            margin-top: 2px;
+        }
+
+        .checkbox-container label {
+            font-size: 11px;
+            color: var(--text-gray);
+            line-height: 1.4;
+        }
+
+        .btn-main {
+            width: 100%;
+            background: var(--primary-teal);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .divider {
+            font-size: 10px;
+            font-weight: 700;
+            color: #b0b0b0;
+            text-transform: uppercase;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            height: 1px;
+            background: #e0e0e0;
+            flex: 1;
+        }
+
+        .btn-google {
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .footer-login {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        .footer-login a {
+            color: var(--primary-teal);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .page-footer {
+            width: 100%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 60px;
+            box-sizing: border-box;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .footer-left {
+            font-size: 10px;
+            font-weight: 600;
+            color: #9ca3af;
+            text-transform: uppercase;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-right span {
+            font-size: 10px;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="card">
+            <div class="icon-top">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--primary-teal)"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.89 9L12 4.58 20.11 9 12 13.42 3.89 9zM12 15.5l-7-3.82v3.32l7 3.82 7-3.82v-3.32l-7 3.82z"/></svg>
+            </div>
+
+            <h1>Pendaftaran Akun</h1>
+            <p class="subtitle">Lengkapi data diri Anda untuk memulai perjalanan kesejahteraan di RICE Asesmen.</p>
+
+            <div class="role-selector" id="roleSelector">
+                <div class="selector-bg"></div>
+                <button class="role-btn active" type="button" onclick="switchRole('mahasiswa')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Mahasiswa
+                </button>
+                <button class="role-btn" type="button" onclick="switchRole('konselor')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Konselor
+                </button>
+            </div>
+
+            <form id="registrationForm">
+                <div id="formFields">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Nama Lengkap
+                        </label>
+                        <input type="text" name="nama" class="input-field" placeholder="Masukkan nama sesuai KTP/KTM" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="12" y2="16"></line></svg>
+                            NIM
+                        </label>
+                        <input type="text" name="nim" class="input-field" placeholder="Masukkan NIM Anda" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            Email Mahasiswa
+                        </label>
+                        <input type="email" name="email" class="input-field" placeholder="nama@polimedia.ac.id" required>
+                    </div>
+                </div>
+
+                <div class="password-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            Kata Sandi
+                        </label>
+                        <input type="password" name="password" class="input-field" placeholder="........." required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                            Konfirmasi
+                        </label>
+                        <input type="password" name="confirm_password" class="input-field" placeholder="........." required>
+                    </div>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        Saya setuju dengan <a href="#" style="color: var(--primary-teal); font-weight: 700; text-decoration: none;">Syarat & Ketentuan</a> serta <a href="#" style="color: var(--primary-teal); font-weight: 700; text-decoration: none;">Kebijakan Privasi</a> yang berlaku.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-main">
+                    Daftar Sekarang &rarr;
+                </button>
+            </form>
+
+            <div class="divider">Atau daftar dengan</div>
+            <button type="button" class="btn-google">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="16" alt="Google">
+                Lanjutkan dengan Google
+            </button>
+
+            <div class="footer-login">
+                Sudah punya akun? <a href="Login.html">Masuk ke Akun</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div class="footer-left">© 2026 POLIMEDIA KREATIF • ACADEMIC SANCTUARY</div>
+        <div class="footer-right">
+            <span>KEBIJAKAN PRIVASI</span>
+            <span>SYARAT & KETENTUAN</span>
+            <span>HUBUNGI KAMI</span>
+        </div>
+    </footer>
+
+    <script>
+        function switchRole(role) {
+            const selector = document.getElementById('roleSelector');
+            const form = document.getElementById('registrationForm');
+            const fieldsContainer = document.getElementById('formFields');
+            const buttons = document.querySelectorAll('.role-btn');
+
+            if (role === 'konselor') {
+                selector.classList.add('is-konselor');
+                buttons[1].classList.add('active');
+                buttons[0].classList.remove('active');
+            } else {
+                selector.classList.remove('is-konselor');
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            }
+
+            form.classList.add('fade-out');
+
+            setTimeout(() => {
+                if (role === 'konselor') {
+                    fieldsContainer.innerHTML = `
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Nama Lengkap
+                            </label>
+                            <input type="text" name="nama" class="input-field" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="12" y2="16"></line></svg>
+                                NIDN
+                            </label>
+                            <input type="text" name="nidn" class="input-field" placeholder="Contoh: 202101001" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                Email Konselor
+                            </label>
+                            <input type="email" name="email" class="input-field" placeholder="nama@polimedia.ac.id" required>
+                        </div>
+                    `;
+                } else {
+                    fieldsContainer.innerHTML = `
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Nama Lengkap
+                            </label>
+                            <input type="text" name="nama" class="input-field" placeholder="Masukkan nama sesuai KTP/KTM" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="17" y2="12"></line><line x1="7" y1="16" x2="12" y2="16"></line></svg>
+                                NIM
+                            </label>
+                            <input type="text" name="nim" class="input-field" placeholder="Masukkan NIM Anda" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                Email Mahasiswa
+                            </label>
+                            <input type="email" name="email" class="input-field" placeholder="nama@polimedia.ac.id" required>
+                        </div>
+                    `;
+                }
+                form.classList.remove('fade-out');
+            }, 300);
+        }
+
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            data.role = document.querySelector('.role-btn.active').innerText.toLowerCase().trim();
+
+            if (data.password !== data.confirm_password) {
+                return alert("Kata sandi tidak cocok!");
+            }
+
+            try {
+                const res = await fetch('http://localhost:5000/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                if (res.ok) {
+                    alert("Registrasi berhasil! Silakan login.");
+                    window.location.href = 'Login.html';
+                } else {
+                    const err = await res.json();
+                    alert(err.error || "Gagal registrasi");
+                }
+            } catch (err) {
+                alert("Koneksi server gagal.");
+            }
+        });
+    </script>
+</body>
+</html>

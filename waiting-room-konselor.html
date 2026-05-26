@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waiting Room Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="waiting-room-page">
+
+    <!-- TOP BAR -->
+    <div class="waiting-topbar">
+      <div class="waiting-top-back" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+        Kembali
+      </div>
+      <div class="waiting-status">
+        STATUS SESI<span id="statusLabel">Menunggu Mahasiswa</span>
+      </div>
+      <div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-mid)" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- NOTIF BAR — muncul saat mahasiswa sudah masuk / sesi dimulai -->
+    <div class="waiting-notif-bar" id="notifBar" style="display:none;">
+      <div class="waiting-notif-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="waiting-notif-text">
+        <div class="waiting-notif-title">Mahasiswa sudah masuk!</div>
+        <div class="waiting-notif-sub">Silakan mulai sesi konseling sekarang</div>
+      </div>
+      <div class="waiting-notif-btn" onclick="window.location.href='room-chat-konselor.html'">
+        Mulai Sesi Sekarang
+      </div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="waiting-main-card">
+      <div class="waiting-card-body">
+
+        <!-- LEFT — info mahasiswa + jadwal + countdown -->
+        <div class="waiting-left">
+
+          <!-- Info Mahasiswa -->
+          <div class="waiting-konselor-card">
+            <div style="position:relative;">
+              <div style="
+                width:56px; height:56px; border-radius:50%;
+                background:var(--primary-light);
+                display:flex; align-items:center; justify-content:center;
+                font-size:20px; font-weight:800; color:var(--primary);
+                flex-shrink:0;
+              " id="mahasiswaAvatar">R</div>
+              <!-- dot status mahasiswa -->
+              <div id="mahasiswaDot" class="status-dot" style="
+                position:absolute; bottom:2px; right:2px;
+                width:12px; height:12px; border-radius:50%;
+                background:#F59E0B; border:2px solid white;
+              "></div>
+            </div>
+            <div>
+              <div class="waiting-konselor-name" id="mahasiswaName">Rizky Aditya</div>
+              <div style="margin:4px 0;">
+                <span class="waiting-k-badge" id="mahasiswaBadge">MENUNGGU MAHASISWA</span>
+              </div>
+              <div class="waiting-konselor-role" id="mahasiswaInfo">
+                Teknik Informatika • Semester 7
+              </div>
+            </div>
+          </div>
+
+          <!-- Jadwal + Countdown -->
+          <div class="waiting-schedule-card">
+            <div class="waiting-sched-head">
+              <div>
+                <div class="waiting-sched-date">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/> 
+                    <line x1="8"  y1="2" x2="8"  y2="6"/>
+                    <line x1="3"  y1="10" x2="21" y2="10"/>
+                  </svg>
+                  Sabtu, 14 September • 10:00 WIB
+                </div>
+                <div class="waiting-sched-sub">Online • Room Chat</div>
+              </div>
+              <div>
+                <div class="countdown-label">SESI DIMULAI DALAM:</div>
+              </div>
+            </div>
+
+            <div class="countdown">
+              <div class="countdown-group">
+                <div class="countdown-num" id="hours">00</div>
+                <div class="countdown-unit">JAM</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-group">
+                <div class="countdown-num" id="minutes">15</div>
+                <div class="countdown-unit">MENIT</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-group">
+                <div class="countdown-num" id="seconds">24</div>
+                <div class="countdown-unit">DETIK</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT — persiapan konselor + tombol masuk -->
+        <div class="waiting-right">
+          <h3>Persiapan Sebelum Sesi</h3>
+          <div class="persiapan-list">
+
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div class="persiapan-text">Buka catatan sesi sebelumnya</div>
+            </div>
+
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </div>
+              <div class="persiapan-text">Cari tempat yang tenang</div>
+            </div>
+
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2">
+                  <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                  <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                  <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                  <line x1="12" y1="20" x2="12.01" y2="20"/>
+                </svg>
+              </div>
+              <div class="persiapan-text">Cek koneksi internet</div>
+            </div>
+
+          </div>
+
+          <!-- Tombol masuk room — disabled sampai countdown ≤ 5 menit atau sesi dimulai -->
+          <div class="masuk-ruang-disabled" id="masukBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Masuk Ruang Sesi
+          </div>
+          <div class="masuk-note" id="masukNote">
+            Tombol akan aktif secara otomatis 5 menit sebelum sesi dimulai. Mohon tetap berada di halaman ini.
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CARD FOOTER -->
+      <div class="waiting-footer">
+        <span>© 2024 RICE ASESMEN • LAYANAN KESEHATAN MENTAL</span>
+        <div style="display:flex;gap:20px;">
+          <a href="kontak-konselor.html"           style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">PUSAT BANTUAN</a>
+          <a href="syarat-ketentuan.html" style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">SYARAT &amp; KETENTUAN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── Countdown ──────────────────────────────────────────
+    let totalSeconds = 15 * 60 + 24;
+    let sessionStartTime = null;
+    function updateCountdown() {
+      // Hitung jam / menit / detik
+      const h = Math.floor(totalSeconds / 3600); // Perbaikan: hitung jam
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+
+      document.getElementById('hours').textContent   = String(h).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+
+      // ── 5 menit sebelum mulai → aktifkan tombol masuk ──
+      if (totalSeconds <= 300 && totalSeconds > 0) { // 5 menit = 300 detik
+        aktifkanTombol();
+      }
+
+      // ── Countdown habis → tampil notif, update status ──
+      if (totalSeconds <= 0) {
+        sesiDimulai();
+        return;
+      }
+
+      totalSeconds--;
+    }
+
+    function aktifkanTombol() {
+      const btn = document.getElementById('masukBtn');
+      if (btn.classList.contains('masuk-ruang-disabled')) {
+        btn.className = 'btn-primary';
+        btn.style.cssText = 'width:100%;justify-content:center;margin-bottom:10px;padding:16px;display:flex;align-items:center;gap:8px;';
+        btn.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Masuk Ruang Sesi`; // Perbaikan: ikon play
+        btn.onclick = () => window.location.href = 'room-chat-konselor.html';
+
+        document.getElementById('masukNote').textContent = 'Sesi akan segera dimulai. Anda bisa masuk ruang sekarang.';
+      }
+    }
+
+    function sesiDimulai() {
+      // Tampilkan notif banner atas
+      document.getElementById('notifBar').style.display = 'flex';
+
+      // Update status label
+      document.getElementById('statusLabel').textContent = 'Sesi Sedang Berlangsung';
+
+      // Update dot mahasiswa jadi hijau (mahasiswa sudah masuk)
+      document.getElementById('mahasiswaDot').style.background = '#22C55E';
+
+      // Update badge
+      document.getElementById('mahasiswaBadge').textContent = 'SEDANG BERLANGSUNG';
+      document.getElementById('mahasiswaBadge').style.background = 'var(--primary)';
+      document.getElementById('mahasiswaBadge').style.color = 'white';
+
+      // Pastikan tombol aktif dan arahkan ke room-chat-konselor
+      const btn = document.getElementById('masukBtn');
+      btn.className = 'btn-primary';
+      btn.style.cssText = 'width:100%;justify-content:center;margin-bottom:10px;padding:16px;display:flex;align-items:center;gap:8px;';
+      btn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        Mulai Sesi Sekarang`; // Perbaikan: ikon play
+      btn.onclick = () => window.location.href = `room-chat-konselor.html?bookingId=${new URLSearchParams(window.location.search).get('bookingId')}`;
+
+      document.getElementById('masukNote').textContent = 'Mahasiswa telah masuk. Segera mulai sesi konseling.';
+    }
+
+    async function loadBookingDetails() {
+        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
+        if (!bookingId) {
+            console.error("Booking ID tidak ditemukan di URL.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?id=${bookingId}`); // Perlu endpoint GET /api/bookings/:id
+            const bookings = await res.json();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (booking) {
+                const mahasiswaRes = await fetch(`http://localhost:5000/api/profil?id=${booking.mahasiswaId}`);
+                const mahasiswa = await mahasiswaRes.json();
+
+                document.getElementById('mahasiswaAvatar').textContent = mahasiswa.nama.charAt(0).toUpperCase();
+                document.getElementById('mahasiswaName').textContent = mahasiswa.nama;
+                document.getElementById('mahasiswaInfo').textContent = `${mahasiswa.prodi} • Semester ${mahasiswa.semester}`;
+
+                const sessionDateTime = new Date(`${booking.tanggal}T${booking.jam}`);
+                document.querySelector('.waiting-sched-date').innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    ${sessionDateTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} • ${booking.jam} WIB`;
+                document.querySelector('.waiting-sched-sub').textContent = `${booking.mode === 'online' ? 'Online' : 'Offline'} • ${booking.mode === 'online' ? 'Room Chat' : 'Tatap Muka'}`;
+
+                sessionStartTime = sessionDateTime;
+                totalSeconds = Math.max(0, Math.floor((sessionStartTime.getTime() - Date.now()) / 1000));
+
+                // Update status dot mahasiswa berdasarkan status booking
+                if (booking.status === 'Dikonfirmasi') {
+                    document.getElementById('mahasiswaDot').style.background = '#22C55E'; // Hijau jika sudah dikonfirmasi
+                    document.getElementById('mahasiswaBadge').textContent = 'MENUNGGU ANDA';
+                } else {
+                    document.getElementById('mahasiswaDot').style.background = '#F59E0B'; // Oranye jika menunggu persetujuan
+                    document.getElementById('mahasiswaBadge').textContent = 'MENUNGGU PERSETUJUAN';
+                }
+
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            } else {
+                console.error("Booking tidak ditemukan.");
+            }
+        } catch (err) {
+            console.error("Gagal memuat detail booking:", err);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBookingDetails);
+  </script>
+</body>
+</html>

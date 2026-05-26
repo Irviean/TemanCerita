@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riwayat Sesi – TemanCerita Konselor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+          <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+          <li><a href="jadwal-konselor.html" class="nav-link">Jadwal</a></li>
+          <li><a href="riwayat-konselor.html" class="nav-link active">Riwayat</a></li>
+          <li><a href="buat-artikel.html" class="nav-link">Artikel</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="riwayat-layout">
+      <!-- SIDEBAR -->
+      <div>
+        <div class="riwayat-sidebar-title">Riwayat Sesi</div>
+        <div class="riwayat-sidebar-sub">Kelola dan tinjau catatan konsultasi mahasiswa sebelumnya.</div>
+
+        <div class="filter-card">
+          <div class="filter-card-label">FILTER STATUS</div>
+          <div class="filter-option active" onclick="setFilter(this,'selesai')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Selesai
+          </div>
+          <div class="filter-option" onclick="setFilter(this,'semua')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            Semua Riwayat
+          </div>
+        </div>
+
+        <div class="filter-card">
+          <div class="filter-card-label">PERIODE</div>
+          <select class="filter-select">
+            <option>Bulan Ini</option>
+            <option>Bulan Lalu</option>
+            <option>3 Bulan Terakhir</option>
+            <option>Semua Waktu</option>
+          </select>
+        </div>
+
+        <div class="total-sesi-mini-card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="15" x2="12" y2="15"/></svg>
+          </div>
+          <div class="total-sesi-mini-num">24</div>
+          <div class="total-sesi-mini-label">Total Sesi Bulan Ini</div>
+        </div>
+      </div>
+
+      <!-- MAIN LIST -->
+      <div>
+        <div class="riwayat-main-list" id="riwayatKonselorList">
+          <!-- Riwayat sessions will be loaded here -->
+        </div>
+        <div id="emptyState" style="display:none;text-align:center;padding:40px 20px;color:var(--text-light);">
+          <div style="font-size:36px;margin-bottom:12px;">📋</div>
+          <div style="font-size:14px;font-weight:600;">Tidak ada sesi yang ditemukan</div>
+          <div style="font-size:13px;margin-top:4px;">Coba ganti filter atau periode</div>
+        </div>
+      </div>
+
+      <!-- DETAIL PANEL -->
+      <div class="detail-sesi-panel" id="detailPanel">
+        <div class="detail-sesi-header">
+          <h3>Detail Sesi</h3>
+          <button class="close-btn" onclick="closeDetail()">✕</button>
+        </div>
+
+        <div class="keluhan-box">
+          <div class="keluhan-label">KELUHAN UTAMA MAHASISWA</div>
+          <div class="keluhan-text" id="keluhanText"></div>
+        </div>
+
+        <div class="detail-catatan">
+          <h4>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Catatan Konselor
+          </h4>
+          <p id="catatanText"></p>
+        </div>
+
+        <div class="detail-catatan">
+          <h4>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rekomendasi
+          </h4>
+          <div class="rekomendasi-list" id="rekomendasiList"></div>
+        </div>
+
+        <div class="hasil-row">
+          <span class="hasil-label">HASIL ASESMEN</span>
+          <span class="hasil-stabil" id="hasilAsesmen"></span>
+        </div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="openLaporan()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Download File PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang-konselor.html">Tentang Kami</a></li>
+            <li><a href="kontak-konselor.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= MODAL: PREVIEW LAPORAN ======= -->
+  <div id="modalLaporan" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:24px;padding:36px;max-width:540px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);position:relative;max-height:90vh;overflow-y:auto;">
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <h3 style="font-size:20px;font-weight:800;">Preview Laporan Sesi</h3>
+        <button onclick="closeLaporan()" style="width:32px;height:32px;border:none;background:var(--bg);border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text-mid);">✕</button>
+      </div>
+
+      <!-- Info cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+        <div style="background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">TANGGAL SESI</div>
+          <div id="laporanTanggal" style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            08 Okt 2023
+          </div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-light);margin-bottom:8px;">STATUS HASIL</div>
+          <span id="laporanHasil" style="padding:4px 14px;background:#D1FAE5;color:#065F46;border-radius:50px;font-size:13px;font-weight:700;">STABIL</span>
+        </div>
+      </div>
+
+      <!-- Ringkasan Permasalahan -->
+      <div style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:12px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Ringkasan Permasalahan
+        </div>
+        <div id="laporanKeluhan" style="background:var(--bg);border-radius:var(--radius-sm);padding:16px;border-left:3px solid var(--primary);font-size:14px;color:var(--text-mid);line-height:1.7;font-style:italic;"></div>
+      </div>
+
+      <!-- Catatan Konselor -->
+      <div style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:12px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Catatan Konselor
+        </div>
+        <p id="laporanCatatan" style="font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:10px;"></p>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:grid;grid-template-columns:1fr auto;gap:12px;">
+        <button onclick="downloadPDF()" style="padding:16px;background:var(--primary);color:white;border:none;border-radius:50px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF
+        </button>
+        <button onclick="closeLaporan()" style="padding:16px 24px;background:var(--bg);color:var(--text-mid);border:1.5px solid var(--border);border-radius:50px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+  <script src="main.js"></script>
+  <script>
+    const detailData = {
+      // This will be loaded from backend
+    };
+
+    const KONSELOR_ID = 'k1'; // Asumsi konselor yang login
+    let allRiwayat = [];
+    let currentDetailBookingId = null;
+
+    let currentFilter = 'selesai';
+    let currentPeriode = 'bulan-ini';
+
+    function applyFilter() {
+      const items = document.querySelectorAll('.riwayat-session-item');
+      let visible = 0;
+      const filteredRiwayat = allRiwayat.filter(r => {
+          const statusMatch = currentFilter === 'semua' || r.status.toLowerCase() === currentFilter;
+          // Implementasi filter periode jika ada data tanggal yang lebih detail
+          return statusMatch;
+      });
+
+      const riwayatListContainer = document.getElementById('riwayatKonselorList');
+      riwayatListContainer.innerHTML = filteredRiwayat.map(r => `
+          <div class="riwayat-session-item" data-booking-id="${r.bookingId}" data-status="${r.status.toLowerCase()}" onclick="showDetail('${r.bookingId}', this)">
+              <img src="${r.mahasiswa?.foto || 'https://via.placeholder.com/80'}" class="riwayat-session-avatar" alt="${r.mahasiswa?.nama || 'Anonim'}" />
+              <div class="riwayat-session-info">
+                  <div class="riwayat-session-name">${r.mahasiswa?.nama || 'Mahasiswa Anonim'}</div>
+                  <div class="riwayat-session-meta">
+                      <span>📅 ${r.tanggal}</span>
+                      <span>⏰ ${r.jam || 'N/A'}</span>
+                  </div>
+              </div>
+              <span class="selesai-tag">${r.status.toUpperCase()}</span>
+              <button class="lihat-detail-btn">Lihat Detail ›</button>
+          </div>
+      `).join('');
+      visible = filteredRiwayat.length;
+
+      const empty = document.getElementById('emptyState');
+      if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    function showDetail(bookingId, el) {
+      currentDetailBookingId = bookingId;
+      const session = allRiwayat.find(r => r.bookingId === bookingId);
+      if (!session) {
+          console.error("Detail sesi tidak ditemukan untuk bookingId:", bookingId);
+          return;
+      }
+
+      document.getElementById('keluhanText').textContent = session.praKonseling?.deskripsi || 'Tidak ada keluhan utama.';
+      document.getElementById('catatanText').textContent = session.reviewText || 'Belum ada catatan konselor.'; // Menggunakan reviewText sebagai catatan
+
+      const rekomendasiList = document.getElementById('rekomendasiList');
+      // Asumsi rekomendasi bisa diambil dari reviewText atau ada field terpisah
+      rekomendasiList.innerHTML = `
+        <div class="rekomendasi-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>${session.praKonseling?.harapan || 'Tidak ada rekomendasi spesifik.'}</span>
+        </div>
+      `;
+
+      document.getElementById('hasilAsesmen').textContent = session.status.toUpperCase();
+      document.getElementById('laporanTanggal').textContent = session.tanggal;
+      document.getElementById('laporanHasil').textContent = session.status.toUpperCase();
+      document.getElementById('laporanKeluhan').textContent = session.praKonseling?.deskripsi || 'Tidak ada keluhan utama.';
+      document.getElementById('laporanCatatan').textContent = session.reviewText || 'Belum ada catatan konselor.';
+
+      document.querySelectorAll('.riwayat-session-item').forEach(i => i.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    function closeDetail() {
+      document.querySelectorAll('.riwayat-session-item').forEach(el => el.classList.remove('active'));
+    }
+
+    function setFilter(el, filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+      applyFilter();
+    }
+
+    async function loadRiwayatKonselor() {
+        try {
+            const res = await fetch(`http://localhost:5000/api/riwayat?userId=${KONSELOR_ID}`);
+            allRiwayat = await res.json();
+            applyFilter();
+            if (allRiwayat.length > 0) {
+                showDetail(allRiwayat[0].bookingId, document.querySelector('.riwayat-session-item'));
+            }
+        } catch (err) {
+            console.error("Gagal memuat riwayat konselor:", err);
+            document.getElementById('riwayatKonselorList').innerHTML = '<p>Gagal memuat riwayat sesi.</p>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      const sel = document.querySelector('.filter-select');
+      if (sel) sel.addEventListener('change', function() {
+        if (this.value === 'Bulan Ini') currentPeriode = 'bulan-ini';
+        else if (this.value === 'Bulan Lalu') currentPeriode = 'bulan-lalu';
+        else currentPeriode = 'semua';
+      });
+      await loadRiwayatKonselor();
+    });
+
+    function openLaporan() {
+      const modal = document.getElementById('modalLaporan');
+      modal.style.display = 'flex';
+    }
+    function closeLaporan() {
+      document.getElementById('modalLaporan').style.display = 'none';
+    }
+    function downloadPDF() {
+      closeLaporan();
+      showToast('📄 Laporan PDF sedang diunduh...');
+    }
+    document.getElementById('modalLaporan').addEventListener('click', function(e) {
+      if (e.target === this) closeLaporan();
+    });
+
+    
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+  
+  </script>
+</body>
+</html>

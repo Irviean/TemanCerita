@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buat Artikel – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .artikel-page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 36px) 24px 80px;
+    }
+    .artikel-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--text-mid);
+      margin-bottom: 20px; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .artikel-back:hover { color: var(--primary); }
+    .artikel-page-title { font-size: 22px; font-weight: 800; margin-bottom: 28px; }
+
+    .cover-upload-area {
+      width: 100%;
+      height: 220px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: white;
+      margin-bottom: 24px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-upload-area:hover { border-color: var(--primary); background: var(--primary-light); }
+    .cover-upload-area.has-image img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .cover-upload-icon { color: var(--text-light); margin-bottom: 10px; }
+    .cover-upload-text { font-size: 15px; font-weight: 700; color: var(--text-mid); margin-bottom: 4px; }
+    .cover-upload-sub { font-size: 12px; color: var(--text-light); }
+    .cover-upload-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .cover-upload-area.has-image:hover .cover-upload-overlay { display: flex; }
+
+    .form-label-md { font-size: 13px; font-weight: 700; margin-bottom: 8px; display: block; }
+
+    .judul-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: var(--font);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      outline: none;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+    .judul-input:focus { border-color: var(--primary); background: white; }
+    .judul-input::placeholder { color: var(--text-light); font-weight: 400; }
+
+    .editor-wrap {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: white;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .editor-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .toolbar-btn {
+      width: 32px; height: 32px;
+      border: none; background: transparent;
+      border-radius: 6px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-mid);
+      font-family: var(--font);
+      font-size: 13px; font-weight: 700;
+      transition: all 0.15s;
+    }
+    .toolbar-btn:hover { background: var(--primary-light); color: var(--primary); }
+    .toolbar-btn.active { background: var(--primary); color: white; }
+    .toolbar-sep { width: 1px; height: 22px; background: var(--border); margin: 0 4px; }
+    .editor-body {
+      min-height: 260px;
+      padding: 16px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+      outline: none;
+    }
+    .editor-body:empty::before {
+      content: attr(data-placeholder);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+    .editor-char-count {
+      padding: 8px 14px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-light);
+      text-align: right;
+    }
+
+    .tautan-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-family: var(--font);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      outline: none;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+    .tautan-input:focus { border-color: var(--primary); background: white; }
+    .tautan-input::placeholder { color: var(--text-light); }
+
+    .artikel-footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+    .autosave-info { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-light); }
+    .autosave-dot { width: 8px; height: 8px; border-radius: 50%; background: #22C55E; }
+    .footer-actions { display: flex; gap: 12px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+     <ul class="nav-links">
+          <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+          <li><a href="jadwal-konselor.html" class="nav-link">Jadwal</a></li>
+          <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+          <li><a href="buat-artikel.html" class="nav-link active">Artikel</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="artikel-page page-content">
+    <div class="artikel-back" onclick="history.back()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      Buat Artikel Baru
+    </div>
+
+    <!-- COVER UPLOAD -->
+    <label class="form-label-md">Cover Artikel</label>
+    <div class="cover-upload-area" id="coverArea" onclick="document.getElementById('coverInput').click()">
+      <div class="cover-upload-overlay">🖼 Ganti Gambar</div>
+      <div id="coverPlaceholder">
+        <div class="cover-upload-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="cover-upload-text">Upload Gambar (Drag &amp; Drop atau Klik)</div>
+        <div class="cover-upload-sub">Rekomendasi ukuran: 1200 x 630px (Maks. 5MB)</div>
+      </div>
+      <input type="file" id="coverInput" accept="image/*" style="display:none" onchange="previewCover(event)" />
+    </div>
+
+    <!-- JUDUL -->
+    <label class="form-label-md">Judul Artikel</label>
+    <input type="text" class="judul-input" placeholder="Masukkan judul artikel" id="judulInput" oninput="updateCharCount()" />
+
+    <!-- ISI ARTIKEL -->
+    <label class="form-label-md">Isi Artikel</label>
+    <div class="editor-wrap">
+      <div class="editor-toolbar">
+        <button class="toolbar-btn" onclick="format('bold')" title="Bold"><b>B</b></button>
+        <button class="toolbar-btn" onclick="format('italic')" title="Italic"><i>I</i></button>
+        <button class="toolbar-btn" onclick="format('insertUnorderedList')" title="List">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>
+        </button>
+        <div class="toolbar-sep"></div>
+        <button class="toolbar-btn" onclick="insertLink()" title="Link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </button>
+        <button class="toolbar-btn" title="Gambar" onclick="alert('Upload gambar inline – backend')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </button>
+        <div style="margin-left:auto;">
+          <button class="toolbar-btn" title="Bantuan">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="editor-body" id="editorBody" contenteditable="true" data-placeholder="Tulis isi artikel di sini..." oninput="updateBodyCount()"></div>
+      <div class="editor-char-count" id="bodyCount">0 karakter</div>
+    </div>
+
+    <!-- TAUTAN SUMBER -->
+    <label class="form-label-md">Tautan Sumber (Opsional)</label>
+    <input type="url" class="tautan-input" placeholder="https://sumber-referensi.com" />
+
+    <!-- SPACER untuk footer -->
+    <div style="height:60px;"></div>
+  </div>
+
+  <!-- STICKY FOOTER -->
+  <div class="artikel-footer">
+    <div class="autosave-info">
+      <div class="autosave-dot"></div>
+      Draft tersimpan otomatis
+      <span style="margin:0 6px;opacity:0.3;">•</span>
+      Terakhir diubah 2 menit yang lalu
+    </div>
+    <div class="footer-actions">
+      <button class="btn-outline" onclick="showToast('Draft tersimpan!')">Simpan Draft</button>
+      <button class="btn-primary" onclick="publikasikanArtikel()">Publikasikan Artikel</button>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+  <script src="main.js"></script>
+  <script>
+    function previewCover(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const area = document.getElementById('coverArea');
+        area.classList.add('has-image');
+        document.getElementById('coverPlaceholder').style.display = 'none';
+        const img = document.createElement('img');
+        img.src = ev.target.result;
+        area.insertBefore(img, area.firstChild);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function format(cmd) {
+      document.getElementById('editorBody').focus();
+      document.execCommand(cmd, false, null);
+    }
+
+    function insertLink() {
+      const url = prompt('Masukkan URL:');
+      if (url) document.execCommand('createLink', false, url);
+    }
+
+    async function publikasikanArtikel() {
+      const judul = document.getElementById('judulInput').value;
+      const konten = document.getElementById('editorBody').innerHTML;
+      const coverImg = document.querySelector('.cover-upload-area img')?.src || '';
+
+      if (!judul || !konten) return alert("Judul dan konten tidak boleh kosong!");
+
+      const res = await fetch('http://localhost:5000/api/artikel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          konselorId: 'k1', // Asumsi konselor yang login k1
+          judul,
+          konten,
+          coverImage: coverImg,
+          tags: ["TIPS"]
+        })
+      });
+
+      if (res.ok) {
+        showToast('Artikel berhasil dipublikasikan! ✅');
+        setTimeout(() => window.location.href = 'profil-konselor.html', 2000);
+      }
+    }
+
+    function updateBodyCount() {
+      const len = document.getElementById('editorBody').innerText.length;
+      document.getElementById('bodyCount').textContent = len + ' karakter';
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    // Auto-save simulation
+    setInterval(() => {
+      const judul = document.getElementById('judulInput').value;
+      if (judul) {
+        showToastSilent();
+      }
+    }, 30000);
+  </script>
+</body>
+</html>

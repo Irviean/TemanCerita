@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waiting Room Offline – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .offline-wr-page {
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 24px 40px;
+    }
+
+    /* TOP BAR */
+    .wr-topbar {
+      width: 100%;
+      max-width: 1000px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+    .wr-back { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--primary); font-size: 15px; cursor: pointer; }
+    .wr-icons { display: flex; gap: 14px; color: var(--text-mid); }
+
+    /* MAIN CARD */
+    .wr-main-card {
+      width: 100%;
+      max-width: 1000px;
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* STATUS BAR */
+    .wr-status-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .wr-status-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--text-light); }
+    .wr-status-value { font-size: 14px; font-weight: 700; color: var(--text); }
+    .wr-bell { color: var(--text-mid); }
+
+    /* BODY */
+    .wr-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    /* Left - Konselor + Persiapan */
+    .wr-left { padding: 32px; border-right: 1px solid var(--border); }
+    .wr-konselor-row { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .wr-k-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: var(--primary-light); position: relative; flex-shrink: 0; }
+    .wr-k-name { font-size: 16px; font-weight: 800; }
+    .wr-k-badge { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 3px 10px; border-radius: 50px; font-size: 10px; font-weight: 700; margin: 4px 0; }
+    .wr-k-role { font-size: 12px; color: var(--text-light); }
+
+    .persiapan-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+    .persiapan-numbered-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .persiapan-numbered-item { display: flex; align-items: flex-start; gap: 12px; }
+    .persiapan-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .persiapan-numbered-item h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .persiapan-numbered-item p { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+
+    .tepat-waktu-note {
+      display: flex; align-items: flex-start; gap: 8px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 12px; color: var(--text-mid); line-height: 1.5;
+      border: 1px solid var(--border);
+    }
+
+    /* Middle - Schedule + Countdown */
+    .wr-middle { padding: 32px; border-right: 1px solid var(--border); }
+    .detail-jadwal-card {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .detail-jadwal-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-light); display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .detail-jadwal-date { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .detail-jadwal-time { font-size: 14px; color: var(--text-mid); font-weight: 600; margin-bottom: 8px; }
+    .detail-jadwal-mode { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-mid); font-weight: 600; }
+
+    .countdown-dark-card {
+      background: var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+    .countdown-dark-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.7; margin-bottom: 10px; }
+    .countdown-dark-display {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+    .countdown-dark-units {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      opacity: 0.6;
+      margin-bottom: 14px;
+    }
+    .menunggu-row {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 12px; font-weight: 600;
+    }
+    .menunggu-dot { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* Right - Map Lokasi */
+    .wr-right { padding: 32px; }
+    .lokasi-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-light); display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+    .lokasi-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .lokasi-address { font-size: 13px; color: var(--text-mid); margin-bottom: 16px; }
+    .lihat-lokasi-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+      border: none;
+      font-family: var(--font);
+    }
+    .lihat-lokasi-btn:hover { background: var(--primary-dark); }
+    .map-embed {
+      width: 100%;
+      height: 200px;
+      background: var(--primary-light);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+    }
+    .map-embed-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--teal-soft) 0%, var(--primary-light) 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary);
+      font-size: 13px; font-weight: 600;
+      flex-direction: column; gap: 8px;
+    }
+
+    /* CARD FOOTER */
+    .wr-footer {
+      border-top: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-wr-page">
+    <div class="wr-topbar">
+      <div class="wr-back" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Booking Sesi Konseling
+      </div>
+      <div class="wr-icons">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+    </div>
+
+    <div class="wr-main-card">
+      <!-- STATUS BAR -->
+      <div class="wr-status-bar">
+        <div class="wr-status-label">STATUS SESI</div>
+        <div class="wr-status-value">Menunggu dimulai</div>
+        <svg class="wr-bell" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+
+      <div class="wr-body">
+        <!-- LEFT: Konselor + Persiapan -->
+        <div class="wr-left">
+          <div class="wr-konselor-row">
+            <div style="position:relative;">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80" class="wr-k-avatar" alt="Dra. Siti Aminah" />
+              <div style="position:absolute;bottom:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#22C55E;border:2px solid white;"></div>
+            </div>
+            <div>
+              <div class="wr-k-name">Dra. Siti Aminah</div>
+              <div class="wr-k-badge" id="konselorBadge">PROFESSIONAL &amp; EMPATHETIC</div>
+              <div class="wr-k-role">Spesialis Psikologi Klinis &amp; Keluarga</div>
+            </div>
+          </div>
+
+          <div class="persiapan-title">Persiapan Sebelum Sesi</div>
+          <div class="persiapan-numbered-list">
+            <div class="persiapan-numbered-item">
+              <div class="persiapan-num">1</div>
+              <div>
+                <h5>Datang 10 menit lebih awal</h5>
+                <p>Memberikan waktu untuk relaksasi sebelum memulai.</p>
+              </div>
+            </div>
+            <div class="persiapan-numbered-item">
+              <div class="persiapan-num">2</div>
+              <div>
+                <h5>Tunjukkan bukti booking</h5>
+                <p>Siapkan QR code atau email konfirmasi Anda.</p>
+              </div>
+            </div>
+            <div class="persiapan-numbered-item">
+              <div class="persiapan-num">3</div>
+              <div>
+                <h5>Pastikan lokasi sesuai</h5>
+                <p>Gedung E Polimedia, Lantai 2, Area Konseling.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tepat-waktu-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Silakan datang tepat waktu untuk kenyamanan sesi bersama konselor dan antrean berikutnya.
+          </div>
+        </div>
+
+        <!-- MIDDLE: Jadwal + Countdown -->
+        <div class="wr-middle">
+          <div class="detail-jadwal-card">
+            <div class="detail-jadwal-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              DETAIL JADWAL
+            </div>
+            <div class="detail-jadwal-date">Sabtu, 14 September</div>
+            <div class="detail-jadwal-time" id="sessionTime">10:00 – 11:00 WIB</div>
+            <div class="detail-jadwal-mode" id="sessionMode">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Offline (Tatap Muka)
+            </div>
+          </div>
+
+          <div class="countdown-dark-card">
+            <div class="countdown-dark-label">SESI DIMULAI DALAM</div>
+            <div class="countdown-dark-display" id="offlineCountdown">00:15:24</div>
+            <div class="countdown-dark-units">
+              <span>Jam</span><span>Menit</span><span>Detik</span>
+            </div>
+            <div class="menunggu-row">
+              <div class="menunggu-dot"></div>
+              Menunggu kedatangan Anda
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Map -->
+        <div class="wr-right">
+          <div class="lokasi-label">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            LOKASI PERTEMUAN
+          </div>
+          <div class="lokasi-name">Pusat Konseling Polimedia</div>
+          <div class="lokasi-address">Jl. Srengseng Sawah No.17, Jakarta Selatan</div>
+          <button class="lihat-lokasi-btn" onclick="window.open('https://maps.google.com','_blank')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Lihat Lokasi
+          </button>
+          <div class="map-embed">
+            <div class="map-embed-placeholder">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Peta Lokasi</span>
+              <span style="font-size:11px;opacity:0.6;">Klik "Lihat Lokasi" untuk membuka Maps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="wr-footer">
+        <span>© 2026 RICE ASESMEN • LAYANAN KESEHATAN MENTAL</span>
+        <div style="display:flex;gap:20px;">
+          <a href="kontak.html" style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">PUSAT BANTUAN</a>
+          <a href="syarat-ketentuan.html" style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">SYARAT &amp; KETENTUAN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let sec = 15 * 60 + 24;
+    function tick() {
+      if (sec <= 0) {
+        document.getElementById('offlineCountdown').textContent = '00:00:00';
+        return;
+      }
+      sec--;
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      document.getElementById('offlineCountdown').textContent =
+        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    async function loadBookingDetails() {
+        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
+        if (!bookingId) {
+            console.error("Booking ID tidak ditemukan di URL.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?id=${bookingId}`); // Perlu endpoint GET /api/bookings/:id
+            const bookings = await res.json();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (booking) {
+                const konselorRes = await fetch(`http://localhost:5000/api/konselor/${booking.konselorId}`);
+                const konselor = await konselorRes.json();
+
+                document.querySelector('.wr-k-avatar').src = konselor.foto;
+                document.querySelector('.wr-k-name').textContent = konselor.nama;
+                document.getElementById('konselorBadge').textContent = konselor.role.toUpperCase();
+                document.querySelector('.wr-k-role').textContent = konselor.spesialisasi;
+
+                const sessionDateTime = new Date(`${booking.tanggal}T${booking.jam}`);
+                document.querySelector('.detail-jadwal-date').textContent = sessionDateTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
+                document.getElementById('sessionTime').textContent = `${booking.jam} – ${new Date(sessionDateTime.getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})} WIB`;
+                document.getElementById('sessionMode').innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Offline (Tatap Muka)`;
+
+                document.getElementById('pelaksanaanTanggal').textContent = sessionDateTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                document.getElementById('pelaksanaanWaktuValue').textContent = `${booking.jam} – ${new Date(sessionDateTime.getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})} WIB`;
+                document.getElementById('pelaksanaanLokasiValue').textContent = 'Ruang Konseling A2'; // Hardcode lokasi offline
+
+                sec = Math.max(0, Math.floor((sessionDateTime.getTime() - Date.now()) / 1000));
+                setInterval(tick, 1000);
+            } else {
+                console.error("Booking tidak ditemukan.");
+            }
+        } catch (err) {
+            console.error("Gagal memuat detail booking:", err);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBookingDetails);
+  </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Sesi – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body style="background:var(--bg);">
+
+  <!-- TOP NAV -->
+  <div class="booking-nav" style="position:fixed;top:0;left:0;right:0;z-index:100;">
+    <div class="booking-nav-title">
+      <button class="back-btn" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      Booking Sesi Konseling
+    </div>
+    <div class="booking-nav-icons">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+  </div>
+
+  <div class="booking-content" style="margin-top:64px;">
+
+    <!-- KONSELOR INFO -->
+    <div class="booking-konselor-card" id="konselorInfo">
+        <!-- Akan diisi otomatis dari backend -->
+    </div>
+
+    <!-- MODE SESI -->
+    <div class="booking-section">
+      <div class="booking-section-title">Pilih Mode Sesi</div>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeOnline" onclick="selectMode('online')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Online (Chat/Video)
+        </button>
+        <button class="mode-btn" id="modeOffline" onclick="selectMode('offline')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Offline (Tatap Muka)
+        </button>
+      </div>
+    </div>
+
+    <!-- PILIH TANGGAL -->
+    <div class="booking-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div class="booking-section-title" style="margin:0;">Pilih Tanggal</div>
+        <div class="calendar-month-nav" id="calMonthLabel">Oktober 2023</div>
+      </div>
+      <div class="mini-calendar">
+        <div class="calendar-days-header">
+          <span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span>JUM</span><span>SAB</span><span>MIN</span>
+        </div>
+        <div class="calendar-grid" id="calGrid"></div>
+      </div>
+    </div>
+
+    <!-- PILIH WAKTU -->
+    <div class="booking-section">
+      <div class="booking-section-title">Pilih Waktu Tersedia</div>
+      <div class="time-grid">
+        <button class="time-btn" onclick="selectTime(this)">09:00</button>
+        <button class="time-btn selected" id="selectedTime" onclick="selectTime(this)">10:00</button>
+        <button class="time-btn unavailable" disabled>11:00</button>
+        <button class="time-btn" onclick="selectTime(this)">13:00</button>
+        <button class="time-btn" onclick="selectTime(this)">14:00</button>
+        <button class="time-btn unavailable" disabled>15:00</button>
+        <button class="time-btn" onclick="selectTime(this)">16:00</button>
+        <button class="time-btn" onclick="selectTime(this)">19:00</button>
+        <button class="time-btn" onclick="selectTime(this)">20:00</button>
+      </div>
+    </div>
+
+    <!-- PRA-KONSULTASI -->
+    <div class="booking-section">
+      <div style="background:white;border-radius:var(--radius-sm);border:1px solid var(--border);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span style="font-size:13px;color:var(--text-mid);">Mohon lengkapi formulir ini agar konselor dapat memahami kondisi Anda lebih baik.</span>
+      </div>
+      <div class="pre-konsultasi-link" onclick="alert('Formulir pra-konsultasi akan diisi tim backend')">
+        <span>Lengkapi Formulir Pra-Konsultasi</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STICKY FOOTER -->
+  <div class="booking-footer">
+    <div>
+      <div class="booking-summary-label">RINGKASAN SESI</div>
+      <div class="booking-summary-text" id="summaryDate">📅 Sab, 7 Okt &nbsp;•&nbsp; ⏰ 10:00 WIB</div>
+    </div>
+    <div>
+      <div class="booking-summary-mode" id="summaryMode">Mode Sesi<br><span>Online Video</span></div>
+    </div>
+    <button onclick="openInteraksiModal()" class="btn-primary" style="padding:14px 24px;font-size:15px;">
+      Konfirmasi &amp; Mulai Konsultasi
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+
+  <!-- ======= MODAL: PILIH MODE INTERAKSI ======= -->
+  <div class="modal-overlay" id="modalInteraksi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:24px;padding:36px 32px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+      <h3 style="font-size:20px;font-weight:800;text-align:center;margin-bottom:8px;">Pilih Mode Interaksi</h3>
+      <p style="font-size:14px;color:var(--text-light);text-align:center;margin-bottom:24px;line-height:1.6;">Untuk kenyamanan Anda, Anda dapat memilih untuk tetap anonim selama sesi ini.</p>
+
+      <!-- Mode Publik -->
+      <div class="interaksi-option" id="optPublik" onclick="selectInteraksi('publik')" style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:14px;border:2px solid var(--border);background:var(--bg);margin-bottom:12px;cursor:pointer;transition:all 0.2s;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" />
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;margin-bottom:3px;">Mode Publik</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:1.5;">Menampilkan nama asli dan foto profil Anda kepada konselor</div>
+        </div>
+        <div class="radio-circle" id="radioPublik" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;"></div>
+      </div>
+
+      <!-- Mode Anonim -->
+      <div class="interaksi-option" id="optAnonim" onclick="selectInteraksi('anonim')" style="display:flex;align-items:center;gap:16px;padding:16px;border-radius:14px;border:2px solid var(--primary);background:var(--primary-light);margin-bottom:16px;cursor:pointer;transition:all 0.2s;">
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;">🎭</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:700;margin-bottom:3px;">Mode Anonim</div>
+          <div style="font-size:12px;color:var(--text-mid);line-height:1.5;">Menyembunyikan identitas Anda dengan nama samaran dan avatar generik</div>
+        </div>
+        <div class="radio-circle" id="radioAnonim" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--primary);background:var(--primary);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:8px;height:8px;border-radius:50%;background:white;"></div>
+        </div>
+      </div>
+
+      <!-- Note -->
+      <div style="display:flex;align-items:flex-start;gap:8px;background:var(--primary-light);border-radius:10px;padding:12px 14px;margin-bottom:24px;font-size:12px;color:var(--text-mid);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Identitas asli Anda tidak akan diketahui oleh konselor untuk menjaga privasi ekstra.
+      </div>
+
+      <button onclick="mulaiSesiSekarang()" style="width:100%;padding:16px;background:var(--primary);color:white;border:none;border-radius:50px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;margin-bottom:12px;transition:background 0.2s;">
+        Mulai Sesi Sekarang
+      </button>
+      <div style="text-align:center;font-size:13px;color:var(--text-light);cursor:pointer;" onclick="closeInteraksiModal()">
+        Kembali ke Detail Pesanan
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Ambil detail konselor dari API berdasarkan ID di URL
+    async function loadKonselor() {
+        const id = new URLSearchParams(window.location.search).get('id');
+        if(!id) return;
+        const res = await fetch(`http://localhost:5000/api/konselor/${id}`);
+        const k = await res.json();
+        document.getElementById('konselorInfo').innerHTML = `
+            <img src="${k.foto}" class="booking-konselor-img" />
+            <div>
+                <div class="booking-konselor-name">${k.nama}</div>
+                <div class="booking-konselor-meta">${k.role} • ${k.spesialisasi}</div>
+                <div class="booking-konselor-rating">★ ${k.rating}</div>
+            </div>`;
+    }
+    loadKonselor();
+
+    async function mulaiSesiSekarang() {
+        const msg = "Mohon lengkapi data sesi Anda.";
+        if (!selectedTimeVal) return alert(msg);
+
+        const user = JSON.parse(localStorage.getItem('user'));
+        const params = new URLSearchParams(window.location.search);
+        const konselorId = params.get('id');
+
+        const bookingData = {
+            mahasiswaId: user?.id || 'm1',
+            konselorId: konselorId,
+            tanggal: `2024-10-${selectedDay}`,
+            jam: selectedTimeVal,
+            mode: currentMode,
+            praKonseling: {
+                topik: "Kecemasan", // Bisa dikembangkan dengan input form
+                deskripsi: "Sesi awal bimbingan",
+                harapan: "Mendapatkan ketenangan"
+            }
+        };
+
+        try {
+            const res = await fetch('http://localhost:5000/api/booking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData)
+            });
+            
+            if(res.ok) {
+                closeInteraksiModal();
+                window.location.href = currentMode === 'offline' ? 'waiting-room-offline.html' : 'waiting-room.html';
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Gagal membuat jadwal.');
+            }
+        } catch (e) {
+            alert('Koneksi ke server gagal.');
+        }
+    }
+
+    let selectedMode = 'anonim';
+
+    function openInteraksiModal() {
+      const modal = document.getElementById('modalInteraksi');
+      modal.style.display = 'flex';
+    }
+
+    function closeInteraksiModal() {
+      document.getElementById('modalInteraksi').style.display = 'none';
+    }
+
+    function selectInteraksi(mode) {
+      selectedMode = mode;
+      const optPublik = document.getElementById('optPublik');
+      const optAnonim = document.getElementById('optAnonim');
+      const radioPublik = document.getElementById('radioPublik');
+      const radioAnonim = document.getElementById('radioAnonim');
+
+      if (mode === 'publik') {
+        optPublik.style.borderColor = 'var(--primary)';
+        optPublik.style.background = 'var(--primary-light)';
+        optAnonim.style.borderColor = 'var(--border)';
+        optAnonim.style.background = 'var(--bg)';
+        radioPublik.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:var(--primary);"></div>';
+        radioPublik.style.borderColor = 'var(--primary)';
+        radioAnonim.innerHTML = '';
+        radioAnonim.style.background = 'transparent';
+        radioAnonim.style.borderColor = 'var(--border)';
+      } else {
+        optAnonim.style.borderColor = 'var(--primary)';
+        optAnonim.style.background = 'var(--primary-light)';
+        optPublik.style.borderColor = 'var(--border)';
+        optPublik.style.background = 'var(--bg)';
+        radioAnonim.innerHTML = '<div style="width:8px;height:8px;border-radius:50%;background:white;"></div>';
+        radioAnonim.style.background = 'var(--primary)';
+        radioAnonim.style.borderColor = 'var(--primary)';
+        radioPublik.innerHTML = '';
+        radioPublik.style.background = 'transparent';
+      }
+    }
+
+    // Close modal on outside click
+    document.getElementById('modalInteraksi').addEventListener('click', function(e) {
+      if (e.target === this) closeInteraksiModal();
+    });
+    const calGrid = document.getElementById('calGrid');
+    let selectedDay = 7;
+    const days = [25,26,27,28,29,30,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+    const disabledDays = [25,26,27,28,29,30];
+    const hasDot = [4,10];
+
+    function renderCal() {
+      calGrid.innerHTML = '';
+      days.forEach(d => {
+        const el = document.createElement('div');
+        el.className = 'cal-day';
+        el.textContent = d;
+        if (disabledDays.includes(d)) el.classList.add('disabled');
+        if (d === selectedDay) el.classList.add('selected');
+        if (hasDot.includes(d)) el.classList.add('has-dot');
+        if (!disabledDays.includes(d)) {
+          el.onclick = () => { selectedDay = d; renderCal(); updateSummary(); };
+        }
+        calGrid.appendChild(el);
+      });
+    }
+    renderCal();
+
+    // ---- Mode ----
+    let currentMode = 'online';
+    function selectMode(mode) {
+      currentMode = mode;
+      document.getElementById('modeOnline').classList.toggle('active', mode === 'online');
+      document.getElementById('modeOffline').classList.toggle('active', mode === 'offline');
+      document.getElementById('summaryMode').innerHTML = `Mode Sesi<br><span>${mode === 'online' ? 'Online Video' : 'Tatap Muka'}</span>`;
+    }
+
+    // ---- Time ----
+    let selectedTimeVal = '10:00';
+    function selectTime(btn) {
+      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedTimeVal = btn.textContent.trim();
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const dayNames = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+      const d = new Date(2023, 9, selectedDay);
+      const label = `📅 ${dayNames[d.getDay()]}, ${selectedDay} Okt  •  ⏰ ${selectedTimeVal} WIB`;
+      document.getElementById('summaryDate').textContent = label;
+    }
+  </script>
+</body>
+</html>

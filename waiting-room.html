@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waiting Room – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="waiting-room-page">
+    <!-- TOP BAR -->
+    <div class="waiting-topbar">
+      <div class="waiting-top-back" onclick="history.back()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Kembali
+      </div>
+      <div class="waiting-status">
+        STATUS SESI<span>Menunggu dimulai</span>
+      </div>
+      <div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-mid)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+    </div>
+
+    <!-- NOTIF BAR -->
+    <div class="waiting-notif-bar" id="notifBar" style="display:none;">
+      <div class="waiting-notif-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div class="waiting-notif-text">
+        <div class="waiting-notif-title">Sesi Anda telah dimulai!</div>
+        <div class="waiting-notif-sub">Sesi anda sudah dimulai, silakan masuk ke sesi konsultasi sekarang</div>
+      </div>
+      <div class="waiting-notif-btn" onclick="window.location.href='room-chat.html'">Masuk Sesi Sekarang</div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="waiting-main-card">
+      <div class="waiting-card-body">
+        <!-- LEFT -->
+        <div class="waiting-left">
+          <!-- Konselor info -->
+          <div class="waiting-konselor-card">
+            <div style="position:relative;">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&q=80" class="waiting-konselor-avatar" alt="Dra. Siti Aminah" />
+              <div class="waiting-online-dot"></div>
+            </div>
+            <div>
+              <div class="waiting-konselor-name">Dra. Siti Aminah</div>
+              <div><span class="waiting-k-badge" id="konselorBadge">PROFESSIONAL &amp; EMPATHETIC</span></div>
+              <div class="waiting-konselor-role">Spesialis Psikologi Klinis &amp; Keluarga</div>
+            </div>
+          </div>
+
+          <!-- Schedule card -->
+          <div class="waiting-schedule-card">
+            <div class="waiting-sched-head">
+              <div>
+                <div class="waiting-sched-date">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span id="sessionDate">
+                  Sabtu, 14 September • 10:00 WIB
+                </div>
+                <div class="waiting-sched-sub">Online • Video Call Zoom</div>
+              </div>
+              <div>
+                <div class="countdown-label">SESI DIMULAI DALAM:</div>
+              </div>
+            </div>
+            <div class="countdown">
+              <div class="countdown-group">
+                <div class="countdown-num" id="hours">00</div>
+                <div class="countdown-unit">JAM</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-group">
+                <div class="countdown-num" id="minutes">15</div>
+                <div class="countdown-unit">MENIT</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-group">
+                <div class="countdown-num" id="seconds">24</div>
+                <div class="countdown-unit">DETIK</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="waiting-right">
+          <h3>Persiapan Sebelum Sesi</h3>
+          <div class="persiapan-list">
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </div>
+              <div class="persiapan-text">Cari tempat yang tenang</div>
+            </div>
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div class="persiapan-text">Siapkan topik cerita</div>
+            </div>
+            <div class="persiapan-item">
+              <div class="persiapan-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+              </div>
+              <div class="persiapan-text">Cek koneksi internet</div>
+            </div>
+          </div>
+
+          <div class="masuk-ruang-disabled" id="masukBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Masuk Ruang Sesi
+          </div>
+          <div class="masuk-note">Tombol akan aktif secara otomatis 5 menit sebelum sesi dimulai. Mohon tetap berada di halaman ini.</div>
+        </div>
+      </div>
+
+      <!-- CARD FOOTER -->
+      <div class="waiting-footer">
+        <span>© 2026 RICE ASESMEN • LAYANAN KESEHATAN MENTAL</span>
+        <div style="display:flex;gap:20px;">
+          <a href="kontak.html" style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">PUSAT BANTUAN</a>
+          <a href="syarat-ketentuan.html" style="color:var(--text-light);letter-spacing:0.5px;font-weight:600;">SYARAT &amp; KETENTUAN</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Countdown timer
+    let totalSeconds = 24;
+    let sessionEndTime = null;
+    function updateCountdown() {
+      if (totalSeconds <= 0) {
+        // Session started — show notification
+        document.getElementById('notifBar').style.display = 'flex';
+        const masukBtn = document.getElementById('masukBtn');
+        masukBtn.className = 'btn-primary';
+        masukBtn.style.cssText = 'width:100%;justify-content:center;margin-bottom:10px;padding:16px;';
+        masukBtn.innerHTML = '🚪 Masuk Ruang Sesi';
+        masukBtn.onclick = () => window.location.href = 'room-chat.html';
+        return;
+      }
+
+      // Enable button 5 min before
+      if (totalSeconds <= 300) {
+        const masukBtn = document.getElementById('masukBtn');
+        if (masukBtn.className.includes('disabled')) {
+          masukBtn.className = 'btn-primary';
+          masukBtn.style.cssText = 'width:100%;justify-content:center;margin-bottom:10px;padding:16px;';
+          masukBtn.innerHTML = '🚪 Masuk Ruang Sesi';
+          masukBtn.onclick = () => window.location.href = 'room-chat.html';
+        }
+      }
+
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+
+      document.getElementById('hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+
+      totalSeconds--;
+    }
+
+    async function loadBookingDetails() {
+        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
+        if (!bookingId) {
+            console.error("Booking ID tidak ditemukan di URL.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?id=${bookingId}`); // Perlu endpoint GET /api/bookings/:id
+            const bookings = await res.json();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (booking) {
+                const konselorRes = await fetch(`http://localhost:5000/api/konselor/${booking.konselorId}`);
+                const konselor = await konselorRes.json();
+
+                document.querySelector('.waiting-konselor-avatar').src = konselor.foto;
+                document.querySelector('.waiting-konselor-name').textContent = konselor.nama;
+                document.getElementById('konselorBadge').textContent = konselor.role.toUpperCase();
+                document.querySelector('.waiting-konselor-role').textContent = konselor.spesialisasi;
+
+                const sessionDateTime = new Date(`${booking.tanggal}T${booking.jam}`);
+                document.getElementById('sessionDate').textContent = `${sessionDateTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} • ${booking.jam} WIB`;
+                document.querySelector('.waiting-sched-sub').textContent = `${booking.mode === 'online' ? 'Online' : 'Offline'} • ${booking.mode === 'online' ? 'Video Call Zoom' : 'Tatap Muka'}`;
+
+                sessionEndTime = new Date(sessionDateTime.getTime() + 60 * 60 * 1000); // Asumsi sesi 1 jam
+                totalSeconds = Math.max(0, Math.floor((sessionDateTime.getTime() - Date.now()) / 1000));
+
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            } else {
+                console.error("Booking tidak ditemukan.");
+            }
+        } catch (err) {
+            console.error("Gagal memuat detail booking:", err);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBookingDetails);
+  </script>
+</body>
+</html>

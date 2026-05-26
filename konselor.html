@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">🌿</span><span>TemanCerita</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link active">Konselor</a></li>
+        <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- PAGE HERO -->
+    <section class="page-hero container">
+      <h1>Katalog Konselor Sebaya</h1>
+      <p>Temukan rekan bicara yang tepat untuk mendukung perjalanan akademik dan kesehatan mental Anda di Politeknik Negeri Media Kreatif.</p>
+    </section>
+
+    <div class="container">
+      <!-- FILTER BAR -->
+      <div class="filter-bar">
+        <div class="search-input-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" placeholder="Cari nama atau spesialisasi..." id="searchInput" />
+        </div>
+        <div class="filter-tags">
+          <button class="filter-tag active" data-filter="semua">Semua</button>
+          <button class="filter-tag" data-filter="stres">Stres Akademik</button>
+          <button class="filter-tag" data-filter="kecemasan">Kecemasan</button>
+          <button class="filter-tag" data-filter="diri">Pengembangan Diri</button>
+        </div>
+      </div>
+
+      <!-- KONSELOR GRID -->
+      <div class="konselor-grid" id="konselorGrid">
+        <!-- Data akan dimuat dari backend -->
+      </div>
+
+      <!-- PERFORMANCE SECTION -->
+      <div class="perf-section" style="background:transparent; padding: 40px 0 20px;">
+        <h2 class="section-title" style="text-align:center; margin-bottom:6px;">Performa Konselor Bulan Ini</h2>
+        <p class="perf-subtitle">Gambaran aktivitas dan kepuasan mahasiswa terhadap layanan konseling sebaya.</p>
+        <div class="perf-chart-box">
+          <!-- Filter Bulan -->
+          <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+            <select
+              id="performaBulan"
+              style="padding:8px 14px; border:1.5px solid var(--border); border-radius:8px;
+                     font-family:var(--font); font-size:13px; font-weight:600;
+                     color:var(--text); background:var(--bg); outline:none; cursor:pointer;"
+            >
+              <option value="2026-10">Oktober 2026</option>
+              <option value="2026-09">September 2026</option>
+              <option value="2026-08">Agustus 2026</option>
+            </select>
+          </div>
+          <!-- Canvas Chart.js -->
+          <div style="position:relative; width:100%; height:240px;">
+            <canvas id="performaChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECOMMENDATION BANNER -->
+      <div class="rec-banner">
+        <div class="rec-banner-text">
+          <h3>Tidak yakin siapa yang harus dipilih?</h3>
+          <p>Klik link berikut untuk membantu mu mendapatkan rekomendasi konselor yang paling sesuai dengan kebutuhan emosional anda saat ini</p>
+          <button class="btn-primary">Rekomendasi Konselor</button>
+        </div>
+        <div class="rec-banner-img"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script src="chart-performa.js"></script>
+  <script>
+    async function fetchKonselor() {
+      const grid = document.getElementById('konselorGrid');
+      try {
+        const res = await fetch('http://localhost:5000/api/konselor');
+        const data = await res.json();
+        grid.innerHTML = ''; // Membersihkan konten lama
+        data.forEach(k => {
+          const card = document.createElement('div');
+          card.className = 'konselor-card';
+          card.dataset.tags = (k.tags || []).join(' '); // Untuk fitur filter di main.js
+          card.innerHTML = `
+            <div class="konselor-img-wrap">
+              <img src="${k.foto || 'https://via.placeholder.com/300'}" alt="${k.nama}" />
+              <span class="status-badge status-${(k.status || 'offline').toLowerCase()}">● ${k.status || 'OFFLINE'}</span>
+            </div>
+            <div class="konselor-info">
+              <div class="konselor-name-row"><span class="konselor-name">${k.nama}</span><span class="konselor-rating">★ ${k.rating}</span></div>
+              <div class="konselor-role">${k.role} • ${k.pengalaman}</div>
+              <div class="konselor-tags">${(k.tags || []).map(t => `<span class="k-tag">${t}</span>`).join('')}</div>
+              <a href="detail-konselor.html?id=${k.id}" class="btn-primary">Pilih Konselor →</a>
+            </div>`;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        grid.innerHTML = '<p>Gagal memuat daftar konselor. Pastikan server backend sudah berjalan.</p>';
+      }
+    }
+    fetchKonselor();
+  </script>
+</body>
+</html>

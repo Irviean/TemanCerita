@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .profil-wrap {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 40px) 24px 80px;
+    }
+    .profil-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .profil-card-main {
+      background: white; border-radius: var(--radius);
+      border: 1px solid var(--border); padding: 32px 24px; text-align: center;
+    }
+    .profil-avatar-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
+    .profil-avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light); display: block; }
+    .profil-cam-btn {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 32px; height: 32px; background: white; border-radius: 50%;
+      border: 2px solid var(--border); display: flex; align-items: center;
+      justify-content: center; cursor: pointer; font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .profil-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .profil-email { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
+    .profil-badge { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 5px 16px; border-radius: 50px; font-size: 12px; font-weight: 600; margin-bottom: 20px; }
+    .edit-profil-btn {
+      width: 100%; padding: 13px; background: var(--primary); color: white;
+      border: none; border-radius: 50px; font-size: 14px; font-weight: 700;
+      font-family: var(--font); cursor: pointer; display: flex;
+      align-items: center; justify-content: center; gap: 8px; transition: background 0.2s;
+    }
+    .edit-profil-btn:hover { background: var(--primary-dark); }
+    .pengaturan-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+    .pengaturan-heading { font-size: 15px; font-weight: 700; padding: 18px 20px 14px; }
+    .pengaturan-row { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--border); }
+    .pengaturan-row span { flex: 1; font-size: 14px; font-weight: 500; }
+    .toggle-pill {
+      width: 44px; height: 24px; background: var(--primary); border-radius: 50px;
+      position: relative; cursor: pointer; flex-shrink: 0; border: none; transition: background 0.2s;
+    }
+    .toggle-pill::after { content: ''; position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: right 0.2s; }
+    .toggle-pill.off { background: #D1D5DB; }
+    .toggle-pill.off::after { right: calc(100% - 21px); }
+    .logout-row { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--border); background: #FFF5F5; cursor: pointer; transition: background 0.2s; }
+    .logout-row:hover { background: #FEE2E2; }
+    .logout-row span { font-size: 14px; font-weight: 700; color: #EF4444; }
+    .profil-main { display: flex; flex-direction: column; gap: 20px; }
+    .sesi-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; }
+    .sesi-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .sesi-mendatang-item { background: var(--primary-light); border-radius: var(--radius-sm); padding: 18px; display: flex; align-items: center; gap: 16px; }
+    .sesi-icon-box { width: 48px; height: 48px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
+    .sesi-info { flex: 1; }
+    .sesi-tag { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--primary); }
+    .sesi-konselor { font-size: 16px; font-weight: 700; margin: 3px 0; }
+    .sesi-jadwal { font-size: 12px; color: var(--text-mid); display: flex; gap: 10px; }
+    .masuk-ruang-btn { padding: 10px 20px; border: 2px solid var(--primary); border-radius: 50px; background: white; color: var(--primary); font-size: 13px; font-weight: 700; font-family: var(--font); cursor: pointer; white-space: nowrap; transition: all 0.2s; text-decoration: none; display: inline-block; }
+    .masuk-ruang-btn:hover { background: var(--primary); color: white; }
+    .riwayat-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; }
+    .riwayat-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .riwayat-card-header h3 { font-size: 18px; font-weight: 700; }
+    .lihat-semua-link { font-size: 13px; color: var(--primary); font-weight: 600; text-decoration: none; }
+    .riwayat-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .riwayat-row:last-child { border-bottom: none; }
+    .riwayat-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--primary-light); flex-shrink: 0; }
+    .riwayat-info { flex: 1; }
+    .riwayat-nama { font-size: 14px; font-weight: 700; }
+    .riwayat-meta { font-size: 12px; color: var(--text-light); }
+    .selesai-chip { padding: 4px 12px; background: #D1FAE5; color: #065F46; border-radius: 50px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .lihat-detail-link { font-size: 13px; color: var(--primary); font-weight: 600; white-space: nowrap; text-decoration: none; }
+    .stats-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px 24px; }
+    .stats-row-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat-item { background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 18px 14px; text-align: center; }
+    .stat-item.danger { background: #FFF5F5; border-color: #FECACA; }
+    .stat-num { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .stat-item.danger .stat-num { color: #EF4444; }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: var(--text-light); }
+    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+    .modal-bg.show { display: flex; }
+    .modal-content { background: white; border-radius: 20px; padding: 32px; max-width: 480px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-content h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+    .modal-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .modal-form-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-form-group label { font-size: 12px; font-weight: 700; color: var(--text-mid); }
+    .modal-input { padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font); font-size: 14px; outline: none; background: var(--bg); transition: border-color 0.2s; }
+    .modal-input:focus { border-color: var(--primary); background: white; }
+    .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+    .modal-actions .btn-primary, .modal-actions .btn-outline { flex: 1; justify-content: center; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link">Konselor</a></li>
+        <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="profil-wrap">
+    <div class="profil-sidebar">
+      <div class="profil-card-main">
+        <div class="profil-avatar-wrap">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80" class="profil-avatar" alt="Rizky Aditya" id="profileImg" />
+          <div class="profil-cam-btn" onclick="document.getElementById('imgInput').click()">📷</div>
+          <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="previewImg(event)" />
+        </div>
+        <div class="profil-name">Rizky Aditya</div>
+        <div class="profil-email">rizky.aditya@student.polimedia.ac.id</div>
+        <div class="profil-badge">Desain Grafis – Semester 5</div>
+        <button class="edit-profil-btn" onclick="openEditModal()">✏️ &nbsp;Edit Profil</button>
+      </div>
+
+      <div class="pengaturan-card">
+        <div class="pengaturan-heading">Pengaturan</div>
+        <div class="pengaturan-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Notifikasi</span>
+          <button class="toggle-pill" id="notifToggle" onclick="toggleNotif()"></button>
+        </div>
+        <div class="logout-row" onclick="handleLogout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="profil-main">
+      <div class="sesi-card">
+        <h3>Sesi Mendatang</h3>
+        <div class="sesi-mendatang-item">
+          <div class="sesi-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="sesi-info">
+            <div class="sesi-tag">AKAN DATANG</div>
+            <div class="sesi-konselor">Konsultasi bersama Dra. Siti Aminah</div>
+            <div class="sesi-jadwal"><span>📅 Sabtu, 14 Sep</span><span>⏰ 10:00 WIB</span></div>
+          </div>
+          <a href="waiting-room.html?bookingId=b1" class="masuk-ruang-btn">Masuk Ruang</a>
+        </div>
+      </div>
+
+      <div class="riwayat-card">
+        <div class="riwayat-card-header">
+          <h3>Riwayat Konsultasi</h3>
+          <a href="riwayat-konselor.html" class="lihat-semua-link">Lihat Semua</a>
+        </div>
+        <div id="riwayatList"></div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-row-grid">
+          <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">SESI SELESAI</div></div>
+          <div class="stat-item"><div class="stat-num">4.9</div><div class="stat-label">KEPUASAN</div></div>
+          <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">SERTIFIKAT</div></div>
+          <div class="stat-item danger"><div class="stat-num">1</div><div class="stat-label">SESI TERTUNDA</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Profil -->
+  <div class="modal-bg" id="editModal">
+    <div class="modal-content">
+      <h3>✏️ Edit Profil</h3>
+      <div class="modal-form-row">
+        <div class="modal-form-group"><label>Nama Lengkap</label><input type="text" class="modal-input" value="Rizky Aditya" /></div>
+        <div class="modal-form-group"><label>NIM</label><input type="text" class="modal-input" value="2210501001" /></div>
+      </div>
+      <div class="modal-form-group" style="margin-bottom:14px;"><label>Email</label><input type="email" class="modal-input" value="rizky.aditya@student.polimedia.ac.id" /></div>
+      <div class="modal-form-row">
+        <div class="modal-form-group"><label>Program Studi</label><input type="text" class="modal-input" value="Desain Grafis" /></div>
+        <div class="modal-form-group"><label>Semester</label><input type="number" class="modal-input" value="5" min="1" max="14" /></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeEditModal()">Batal</button>
+        <button class="btn-primary" onclick="saveProfile()">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div class="modal-bg" id="logoutModal">
+    <div class="modal-content" style="text-align:center;max-width:360px;">
+      <div style="font-size:40px;margin-bottom:12px;">👋</div>
+      <h3 style="margin-bottom:8px;">Yakin ingin keluar?</h3>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:24px;">Anda perlu login kembali untuk mengakses akun.</p>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="document.getElementById('logoutModal').classList.remove('show')">Batal</button>
+        <button class="btn-primary" style="background:#EF4444;" onclick="window.location.href='Login.html'">Ya, Keluar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    function previewImg(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => document.getElementById('profileImg').src = ev.target.result;
+      r.readAsDataURL(f);
+    }
+    function toggleNotif() { document.getElementById('notifToggle').classList.toggle('off'); }
+    function openEditModal() { document.getElementById('editModal').classList.add('show'); }
+    function closeEditModal() { document.getElementById('editModal').classList.remove('show'); }
+    async function saveProfile() { 
+      const inputs = document.querySelectorAll('#editModal .modal-input');
+      const data = {
+        nama: inputs[0].value,
+        nim: inputs[1].value,
+        email: inputs[2].value,
+        prodi: inputs[3].value,
+        semester: inputs[4].value
+      };
+
+      const res = await fetch('http://localhost:5000/api/profil', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if(res.ok) {
+        closeEditModal();
+        showToast('Profil berhasil diperbarui! ✅');
+        fetchProfil(); // Segarkan tampilan
+      }
+      else {
+        const err = await res.json();
+        showToast(`Gagal memperbarui profil: ${err.error} ❌`);
+      }
+    }
+    function handleLogout() { document.getElementById('logoutModal').classList.add('show'); }
+    document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); }));
+    function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000); }
+
+    // Fungsi untuk mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+    function getTodayDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    async function fetchProfil() {
+      try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userId = user?.id || 'm1'; // Fallback ke m1 jika tidak ada user login
+
+        const res = await fetch(`http://localhost:5000/api/profil?id=${userId}`);
+        const data = await res.json();
+        if (data) {
+          document.querySelector('.profil-name').textContent = data.nama;
+          document.querySelector('.profil-email').textContent = data.email;
+          document.querySelector('.profil-badge').textContent = `${data.prodi} – Semester ${data.semester}`;
+          if (data.foto) document.getElementById('profileImg').src = data.foto;
+
+          // Isi modal edit profil
+          document.querySelectorAll('#editModal .modal-input')[0].value = data.nama;
+          document.querySelectorAll('#editModal .modal-input')[1].value = data.nim;
+          document.querySelectorAll('#editModal .modal-input')[2].value = data.email;
+          document.querySelectorAll('#editModal .modal-input')[3].value = data.prodi;
+          document.querySelectorAll('#editModal .modal-input')[4].value = data.semester;
+
+          fetchUpcomingSessions(userId);
+          fetchPastSessions(userId);
+        }
+      } catch (err) {
+        console.error("Gagal mengambil data profil dari backend.");
+      }
+    }
+
+    async function fetchUpcomingSessions(userId) {
+        const upcomingContainer = document.querySelector('.sesi-mendatang-item');
+        upcomingContainer.innerHTML = '<p>Memuat sesi mendatang...</p>';
+        try {
+            const today = getTodayDate();
+            const res = await fetch(`http://localhost:5000/api/bookings?mahasiswaId=${userId}&status=Dikonfirmasi&tanggal=${today}`); // Perlu endpoint bookings
+            const bookings = await res.json();
+            if (bookings.length > 0) {
+                const booking = bookings[0]; // Ambil sesi terdekat
+                upcomingContainer.innerHTML = `
+                    <div class="sesi-icon-box">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div class="sesi-info">
+                        <div class="sesi-tag">AKAN DATANG</div>
+                        <div class="sesi-konselor">Konsultasi bersama ${booking.konselorNama || 'Konselor'}</div>
+                        <div class="sesi-jadwal"><span>📅 ${booking.tanggal}</span><span>⏰ ${booking.jam} WIB</span></div>
+                    </div>
+                    <a href="waiting-room.html?bookingId=${booking.id}" class="masuk-ruang-btn">Masuk Ruang</a>`;
+            } else {
+                upcomingContainer.innerHTML = '<p>Tidak ada sesi mendatang.</p>';
+            }
+        } catch (err) {
+            console.error("Gagal memuat sesi mendatang:", err);
+            upcomingContainer.innerHTML = '<p>Gagal memuat sesi mendatang.</p>';
+        }
+    }
+
+    async function fetchPastSessions(userId) {
+        const riwayatListContainer = document.getElementById('riwayatList');
+        riwayatListContainer.innerHTML = '<p>Memuat riwayat sesi...</p>';
+        try {
+            const res = await fetch(`http://localhost:5000/api/riwayat?userId=${userId}&status=Selesai`);
+            const riwayat = await res.json();
+            if (riwayat.length > 0) {
+                riwayatListContainer.innerHTML = riwayat.map(r => `
+                    <div class="riwayat-row">
+                        <img src="${r.konselor?.foto || 'https://via.placeholder.com/100'}" class="riwayat-avatar" alt="${r.konselorNama}" />
+                        <div class="riwayat-info">
+                            <div class="riwayat-nama">${r.konselorNama}</div>
+                            <div class="riwayat-meta">${r.tanggal} • ${r.mode === 'online' ? 'Online' : 'Offline'}</div>
+                        </div>
+                        <span class="selesai-chip">Selesai</span>
+                        <a href="detail-konselor.html?id=${r.konselorId}" class="lihat-detail-link">Lihat Detail →</a>
+                    </div>
+                `).join('');
+            } else {
+                riwayatListContainer.innerHTML = '<p>Tidak ada riwayat sesi.</p>';
+            }
+        } catch (err) {
+            console.error("Gagal memuat riwayat sesi:", err);
+            riwayatListContainer.innerHTML = '<p>Gagal memuat riwayat sesi.</p>';
+        }
+    }
+    fetchProfil();
+  </script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Chat – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Reset body ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); }
+
+    /* ── Seluruh halaman: navbar + chat area ── */
+    .page-wrap {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Area di bawah navbar ── */
+    .chat-area {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      margin-top: var(--nav-h);
+    }
+
+    /* ════════════════════════
+       SIDEBAR KIRI
+    ════════════════════════ */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: white;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .sidebar-item:hover   { background: var(--primary-light); }
+    .sidebar-item.active  { background: var(--primary-light); border-left: 3px solid var(--primary); }
+    .sidebar-avatar-wrap  { position: relative; flex-shrink: 0; }
+    .sidebar-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%; object-fit: cover;
+      background: var(--primary-light);
+    }
+    .online-dot {
+      position: absolute; bottom: 1px; right: 1px;
+      width: 10px; height: 10px;
+      border-radius: 50%; background: #22C55E;
+      border: 2px solid white;
+    }
+    .sidebar-name   { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .sidebar-status { font-size: 11px; color: var(--text-light); }
+    .sidebar-status.typing { color: var(--primary); font-style: italic; }
+    .sidebar-new-btn {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .sidebar-new-btn .btn-primary {
+      width: 100%; justify-content: center; font-size: 13px; padding: 10px;
+    }
+
+    /* ════════════════════════
+       MAIN CHAT
+    ════════════════════════ */
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: white;
+    }
+
+    /* ── Header ── */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: white;
+      flex-shrink: 0;
+    }
+    .chat-header-left { display: flex; align-items: center; gap: 12px; }
+    .chat-header-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%; object-fit: cover;
+      background: var(--primary-light);
+      flex-shrink: 0;
+    }
+    .chat-header-name {
+      font-size: 15px; font-weight: 700; margin-bottom: 2px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chat-header-badge {
+      padding: 3px 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 50px; font-size: 10px; font-weight: 700;
+    }
+    .chat-header-status {
+      font-size: 12px; color: #22C55E; font-weight: 600;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .chat-header-status::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: #22C55E; display: inline-block;
+    }
+    .chat-header-right {
+      display: flex; align-items: center; gap: 14px; color: var(--text-mid);
+    }
+    .anon-toggle {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; color: var(--text-light);
+    }
+    .toggle-switch {
+      width: 42px; height: 22px;
+      background: var(--primary);
+      border-radius: 50px; position: relative; cursor: pointer;
+    }
+    .toggle-switch::after {
+      content: '';
+      position: absolute; top: 3px; right: 3px;
+      width: 16px; height: 16px;
+      border-radius: 50%; background: white;
+      transition: right 0.2s;
+    }
+    .toggle-switch.off { background: #D1D5DB; }
+    .toggle-switch.off::after { right: calc(100% - 19px); }
+
+    /* ── Messages area ── */
+    .messages-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* date badge */
+    .date-badge {
+      align-self: flex-start;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-light); letter-spacing: 0.5px;
+    }
+
+    /* anon notice */
+    .anon-notice {
+      align-self: center;
+      max-width: 70%;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px; color: var(--text-mid);
+      display: flex; align-items: flex-start; gap: 8px;
+      line-height: 1.5;
+    }
+    .anon-notice strong { color: var(--primary); }
+
+    /* ── Bubble row ── */
+    /* pesan masuk (konselor → kiri) */
+    .msg-received {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 65%;
+      align-self: flex-start;   /* ← kiri */
+    }
+    /* pesan keluar (user → kanan) */
+    .msg-sent {
+      display: flex;
+      flex-direction: row-reverse;   /* avatar di kanan kalau ada */
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 65%;
+      align-self: flex-end;         /* ← kanan */
+    }
+
+    .msg-avatar-sm {
+      width: 30px; height: 30px;
+      border-radius: 50%; object-fit: cover;
+      background: var(--primary-light);
+      flex-shrink: 0;
+    }
+
+    .msg-content { display: flex; flex-direction: column; gap: 4px; }
+
+    /* bubble */
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+    .bubble-received {
+      background: white;
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+    .bubble-sent {
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* timestamp */
+    .msg-time-received { font-size: 11px; color: var(--text-light); padding-left: 4px; }
+    .msg-time-sent     { font-size: 11px; color: var(--text-light); text-align: right; padding-right: 4px; }
+
+    /* typing indicator */
+    .typing-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      align-self: flex-start;
+    }
+    .typing-bubble {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 18px;
+      border-bottom-left-radius: 4px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .typing-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%; background: var(--text-light);
+      animation: blink 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+    /* ── Input area ── */
+    .input-area {
+      border-top: 1px solid var(--border);
+      background: white;
+      flex-shrink: 0;
+    }
+    .input-actions {
+      padding: 8px 16px 0;
+      display: flex; gap: 8px;
+    }
+    .action-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      background: var(--bg);
+      font-size: 12px; font-weight: 600;
+      color: var(--text-mid); cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .action-chip:hover { border-color: var(--primary); color: var(--primary); }
+
+    .input-row {
+      display: flex; align-items: center;
+      gap: 10px; padding: 10px 16px 14px;
+    }
+    .input-plus {
+      width: 34px; height: 34px;
+      border-radius: 50%; border: 1.5px solid var(--border);
+      background: none; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; color: var(--text-mid);
+      flex-shrink: 0;
+    }
+    .msg-input {
+      flex: 1; padding: 11px 16px;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .msg-input:focus { border-color: var(--primary); background: white; }
+    .msg-input::placeholder { color: var(--text-light); }
+    .mic-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: none; background: var(--bg); color: var(--text-mid);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .send-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: none; background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .send-btn:hover { background: var(--primary-dark); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar" style="position:fixed;top:0;left:0;right:0;z-index:1000;">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html"   class="nav-link">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link active">Konselor</a></li>
+        <li><a href="tentang.html"  class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html"   class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-title">Konselor Aktif</div>
+      <div class="sidebar-list">
+
+        <div class="sidebar-item active">
+          <div class="sidebar-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&q=80" class="sidebar-avatar" alt="Siti Aminah" />
+            <div class="online-dot"></div>
+          </div>
+          <div>
+            <div class="sidebar-name">Dra. Siti Aminah</div>
+            <div class="sidebar-status typing">Sedang mengetik...</div>
+          </div>
+        </div>
+
+        <div class="sidebar-item">
+          <div class="sidebar-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=80" class="sidebar-avatar" alt="Ahmad Fauzi" />
+            <div class="online-dot"></div>
+          </div>
+          <div>
+            <div class="sidebar-name">Bpk. Ahmad Fauzi</div>
+            <div class="sidebar-status">Online</div>
+          </div>
+        </div>
+
+        <div class="sidebar-item">
+          <div class="sidebar-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=80&q=80" class="sidebar-avatar" alt="Maria Utami" />
+            <div class="online-dot"></div>
+          </div>
+          <div>
+            <div class="sidebar-name">Ibu Maria Utami</div>
+            <div class="sidebar-status">Online</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sidebar-new-btn">
+        <button class="btn-primary" onclick="alert('Konsultasi baru dimulai')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Konsultasi Baru
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN CHAT -->
+    <div class="chat-main">
+
+      <!-- HEADER -->
+      <div class="chat-header">
+        <div class="chat-header-left">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&q=80" class="chat-header-avatar" alt="Siti Aminah" />
+          <div>
+            <div class="chat-header-name">
+              Dra. Siti Aminah
+              <span class="chat-header-badge">RESPONSIVE &amp; EMPATHETIC</span>
+            </div>
+            <div class="chat-header-status">Tersedia untuk bercerita</div>
+          </div>
+        </div>
+        <div class="chat-header-right">
+          <div class="anon-toggle">
+            MODE ANONIM
+            <div class="toggle-switch" id="anonToggle" onclick="toggleAnon(this)"></div>
+          </div>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;">
+            <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="messages-area" id="messagesArea">
+
+        <div class="date-badge">PERCAKAPAN DIMULAI HARI INI</div>
+
+        <div class="anon-notice">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="flex-shrink:0;margin-top:1px;">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/> 
+          </svg>
+          <span>
+            <strong>Identitas Anda Terlindungi.</strong>
+            Mode Anonim aktif. Nama dan profil Anda disamarkan untuk kenyamanan dan privasi selama sesi konsultasi ini.
+          </span>
+        </div>
+
+        <!-- Pesan dari konselor (kiri) -->
+        <div id="chatMessages"></div>
+
+        <!-- Typing indicator -->
+        <div class="typing-wrap" id="typingIndicator" style="display:none;">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&q=80" class="msg-avatar-sm" alt="Konselor" />
+          <div class="typing-bubble">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+
+      </div><!-- /messages-area -->
+
+      <!-- INPUT AREA -->
+      <div class="input-area">
+        <div class="input-actions">
+          <button class="action-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+              <line x1="9" y1="9" x2="9.01" y2="9"/>
+              <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+            Bagikan Mood
+          </button>
+          <button class="action-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+            Kirim File
+          </button>
+        </div>
+        <div class="input-row">
+          <button class="input-plus">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+          <input
+            type="text"
+            class="msg-input"
+            id="msgInput"
+            placeholder="Tuliskan ceritamu di sini..."
+            onkeydown="if(event.key==='Enter') kirimPesan()"
+          />
+          <button class="mic-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <button class="send-btn" onclick="kirimPesan()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /chat-main -->
+  </div><!-- /chat-area -->
+
+  <!-- FOOTER -->
+  <footer style="background:var(--bg);border-top:1px solid var(--border);padding:12px 24px;flex-shrink:0;">
+    <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-light);">
+      <span>© 2024 Politeknik Negeri Media Kreatif. Your safety is our priority.</span>
+      <div style="display:flex;gap:20px;">
+        <a href="kontak.html"           style="color:var(--text-light);">Emergency Hotlines</a>
+        <a href="kebijakan-privasi.html" style="color:var(--text-light);">Privacy Policy</a>
+        <a href="kontak.html"           style="color:var(--text-light);">Student Support</a>
+        <a href="syarat-ketentuan.html" style="color:var(--text-light);">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script src="main.js"></script>
+<script>
+  const MAHASISWA_ID = JSON.parse(localStorage.getItem('user'))?.id || 'm1';
+  const BOOKING_ID = new URLSearchParams(window.location.search).get('bookingId') || 'b1'; // Default ke b1
+  let KONSELOR_ID = null;
+
+  // ── Toggle anonim ──────────────────────────────────────
+  function toggleAnon(el) {
+    el.classList.toggle('off');
+  }
+  
+  // ── Kirim pesan ────────────────────────────────────────
+  function kirimPesan() {
+    const input = document.getElementById('msgInput');
+    const text  = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    const area    = document.getElementById('messagesArea');
+    const typing  = document.getElementById('typingIndicator'); // Pastikan ini ada di HTML
+
+    // Bubble keluar (kanan)
+    const sent = document.createElement('div');
+    sent.className = 'msg-sent';
+    sent.innerHTML = `
+      <div class="msg-content">
+        <div class="bubble bubble-sent">${text}</div> 
+        <div class="msg-time-sent">${waktu()} · Terkirim</div>
+      </div>`;
+    area.insertBefore(sent, typing);
+
+    typing.style.display = 'flex';
+    area.scrollTop = area.scrollHeight;
+
+    // Kirim pesan ke backend
+    fetch(`http://localhost:5000/api/chat/${BOOKING_ID}/pesan`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ senderId: MAHASISWA_ID, text: text })
+    }).then(res => res.json())
+      .then(data => {
+          console.log("Pesan terkirim:", data);
+      })
+      .catch(err => {
+          console.error("Gagal mengirim pesan:", err);
+      });
+
+    // Simulasi balasan
+    const balasan = [
+      'Saya mendengarmu. Boleh ceritakan lebih lanjut bagian mana yang paling menekanmu?',
+      'Terima kasih sudah berbagi. Perasaan itu sangat wajar. Kita cari cara bersama-sama ya.',
+      'Saya di sini bersamamu. Mari coba teknik pernapasan sederhana untuk menenangkan pikiran.',
+      'Itu terdengar berat sekali. Tidak apa-apa untuk merasa seperti itu. Ceritakan lebih lanjut.',
+    ];
+
+    setTimeout(() => {
+      typing.style.display = 'none';
+      const recv = document.createElement('div');
+      recv.className = 'msg-received';
+      recv.innerHTML = `
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=60&q=80" class="msg-avatar-sm" />
+        <div class="msg-content"> 
+          <div class="bubble bubble-received">${balasan[Math.floor(Math.random() * balasan.length)]}</div>
+          <div class="msg-time-received">${waktu()}</div>
+        </div>`;
+      area.insertBefore(recv, typing);
+      area.appendChild(typing);
+      area.scrollTop = area.scrollHeight;
+    }, 2000);
+  }
+
+  function waktu() {
+    return new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  async function loadChatHistory() {
+      if (!BOOKING_ID) {
+          console.error("Booking ID tidak ditemukan di URL.");
+          return;
+      }
+      const messagesArea = document.getElementById('chatMessages');
+      messagesArea.innerHTML = '<p style="text-align:center;">Memuat riwayat chat...</p>';
+
+      try {
+          const res = await fetch(`http://localhost:5000/api/chat/${BOOKING_ID}`);
+          const chatHistory = await res.json();
+
+          const bookingRes = await fetch(`http://localhost:5000/api/bookings?id=${BOOKING_ID}`);
+          const bookings = await bookingRes.json();
+          const booking = bookings.find(b => b.id === BOOKING_ID);
+          KONSELOR_ID = booking?.konselorId;
+
+          const konselorRes = await fetch(`http://localhost:5000/api/konselor/${KONSELOR_ID}`);
+          const konselor = await konselorRes.json();
+
+          document.querySelector('.chat-header-avatar').src = konselor.foto;
+          document.querySelector('.chat-header-name').textContent = konselor.nama;
+          document.querySelector('.sidebar-item.active .sidebar-avatar').src = konselor.foto;
+          document.querySelector('.sidebar-item.active .sidebar-name').textContent = konselor.nama;
+
+          messagesArea.innerHTML = ''; // Clear loading message
+          chatHistory.forEach(msg => {
+              const msgRow = document.createElement('div');
+              msgRow.className = `${msg.senderId === MAHASISWA_ID ? 'msg-sent' : 'msg-received'}`;
+              msgRow.innerHTML = `
+                  ${msg.senderId !== MAHASISWA_ID ? `<img src="${konselor.foto}" class="msg-avatar-sm" alt="Konselor" />` : ''}
+                  <div class="msg-content">
+                      <div class="bubble ${msg.senderId === MAHASISWA_ID ? 'bubble-sent' : 'bubble-received'}">${msg.text}</div>
+                      <div class="msg-time-${msg.senderId === MAHASISWA_ID ? 'sent' : 'received'}">${new Date(msg.timestamp).toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' })}</div>
+                  </div>
+              `;
+              messagesArea.appendChild(msgRow);
+          });
+          messagesArea.appendChild(document.getElementById('typingIndicator')); // Add typing indicator back
+          messagesArea.scrollTop = messagesArea.scrollHeight;
+      } catch (err) {
+          console.error("Gagal memuat riwayat chat:", err);
+          messagesArea.innerHTML = '<p style="text-align:center;">Gagal memuat riwayat chat.</p>';
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', loadChatHistory);
+
+  // Load active counselors in sidebar (dummy for now)
+  async function loadActiveCounselors() {
+      // Implement fetching active counselors from /api/konselor?status=online
+      // For now, it's static
+  }
+  loadActiveCounselors();
+</script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Sesi – Menunggu Persetujuan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .detail-mhs-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      padding: calc(var(--nav-h) + 36px) 0 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .page-back { display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--text-mid);margin-bottom:6px;cursor:pointer; }
+    .page-back:hover { color:var(--primary); }
+    .detail-page-title { font-size:24px;font-weight:800;margin-bottom:4px; }
+    .detail-page-sub { font-size:13px;color:var(--text-light);margin-bottom:28px; }
+
+    /* Mahasiswa card */
+    .mhs-profile-card { background:white;border-radius:var(--radius);border:1px solid var(--border);padding:24px;margin-bottom:20px; }
+    .mhs-profile-row { display:flex;align-items:center;gap:16px; }
+    .mhs-big-avatar { width:72px;height:72px;border-radius:50%;object-fit:cover;background:var(--primary-light);flex-shrink:0; }
+    .mhs-tag { display:inline-block;background:var(--primary-light);color:var(--primary);padding:3px 12px;border-radius:50px;font-size:11px;font-weight:700;margin-bottom:6px; }
+    .mhs-big-name { font-size:20px;font-weight:800;margin-bottom:4px; }
+    .mhs-prodi { font-size:14px;color:var(--text-mid);margin-bottom:10px; }
+    .mhs-contacts { display:flex;gap:12px;flex-wrap:wrap; }
+    .mhs-contact-chip { display:flex;align-items:center;gap:6px;padding:6px 14px;border:1.5px solid var(--border);border-radius:50px;font-size:12px;font-weight:600;color:var(--text-mid); }
+
+    /* Info awal */
+    .info-awal-card { background:white;border-radius:var(--radius);border:1px solid var(--border);padding:24px;margin-bottom:20px; }
+    .info-awal-title { font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:16px; }
+    .keluhan-bubble { background:var(--bg);border-radius:var(--radius-sm);padding:16px;font-size:14px;color:var(--text-mid);line-height:1.7;font-style:italic;margin-bottom:16px;border-left:3px solid var(--primary); }
+    .skala-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+    .skala-box { background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border); }
+    .skala-label { font-size:10px;font-weight:700;letter-spacing:1px;color:var(--text-light);margin-bottom:8px; }
+    .skala-bar { height:8px;background:var(--border);border-radius:50px;overflow:hidden;margin-bottom:4px; }
+    .skala-fill { height:100%;background:#EF4444;border-radius:50px; }
+    .skala-value { font-size:12px;font-weight:700;color:#EF4444; }
+    .topik-value { font-size:14px;font-weight:700;color:var(--primary); }
+
+    /* Formulir */
+    .pra-konsultasi-card { background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden; }
+    .pra-info-bar { display:flex;align-items:center;gap:8px;padding:14px 20px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid); }
+    .pra-link { display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;transition:background 0.2s; }
+    .pra-link:hover { background:var(--primary-light); }
+    .pra-link-text { font-size:14px;font-weight:700;color:var(--primary); }
+
+    /* RIGHT: Status permintaan */
+    .status-permintaan-card {
+      background: var(--primary-dark);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .status-icon {
+      width: 56px; height: 56px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .status-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; opacity: 0.7; margin-bottom: 8px; }
+    .status-value { font-size: 26px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+    .terima-permintaan-btn {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 14px; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    .terima-permintaan-btn:hover { background: rgba(255,255,255,0.35); }
+    .tolak-permintaan-btn {
+      width: 100%;
+      padding: 13px;
+      background: rgba(239,68,68,0.2);
+      border: 1.5px solid rgba(239,68,68,0.4);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.85);
+      font-size: 13px; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .tolak-permintaan-btn:hover { background: rgba(239,68,68,0.35); }
+
+    /* Pelaksanaan */
+    .pelaksanaan-card { background:white;border-radius:var(--radius);border:1px solid var(--border);padding:20px;margin-bottom:16px; }
+    .pelaksanaan-title { font-size:14px;font-weight:700;margin-bottom:14px; }
+    .pelaksanaan-item { display:flex;align-items:flex-start;gap:10px;margin-bottom:12px; }
+    .pelaksanaan-item:last-child { margin-bottom:0; }
+    .pelaksanaan-item svg { color:var(--primary);flex-shrink:0;margin-top:2px; }
+    .pelaksanaan-label { font-size:11px;color:var(--text-light);margin-bottom:2px; }
+    .pelaksanaan-value { font-size:13px;font-weight:700; }
+    .tips-card { background:var(--primary-light);border-radius:var(--radius);padding:14px 16px;display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-mid);line-height:1.6; }
+
+    /* Modal konfirmasi */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+    .modal-icon { font-size: 40px; margin-bottom: 14px; }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .modal-sub { font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 24px; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-actions .btn-primary, .modal-actions .btn-outline { flex: 1; justify-content: center; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+        <li><a href="jadwal-konselor.html" class="nav-link active">Jadwal</a></li>
+        <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="detail-mhs-layout">
+      <!-- LEFT -->
+      <div>
+        <div class="page-back" onclick="history.back()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="detail-page-title">Detail Sesi</div>
+        <div class="detail-page-sub">Informasi lengkap terkait sesi konseling mendatang.</div>
+
+        <!-- Mahasiswa Profile -->
+        <div class="mhs-profile-card">
+          <div class="mhs-profile-row">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" class="mhs-big-avatar" alt="Rizky Aditya" />
+            <div>
+              <div class="mhs-tag">Mahasiswa</div>
+              <div class="mhs-big-name">Rizky Aditya</div>
+              <div class="mhs-prodi">Teknik Informatika • Semester 7</div>
+              <div class="mhs-contacts">
+                <div class="mhs-contact-chip">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  rizky.aditya@polimedia.ac.id
+                </div>
+                <div class="mhs-contact-chip">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2 Sesi Sebelumnya
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Awal -->
+        <div class="info-awal-card">
+          <div class="info-awal-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Informasi Awal dari Mahasiswa
+          </div>
+          <div class="keluhan-bubble">
+            "Saya merasa sangat tertekan dengan progres skripsi akhir-akhir ini. Sulit fokus dan sering merasa cemas saat harus bertemu pembimbing. Saya membutuhkan arahan bagaimana mengelola rasa stres ini agar tetap produktif."
+          </div>
+          <div class="skala-grid">
+            <div class="skala-box">
+              <div class="skala-label">SKALA STRES</div>
+              <div class="skala-bar"><div class="skala-fill" style="width:80%"></div></div>
+              <div class="skala-value">Tinggi (8/10)</div>
+            </div>
+            <div class="skala-box">
+              <div class="skala-label">TOPIK UTAMA</div>
+              <div class="topik-value">Akademik &amp; Kecemasan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulir Pra-Konsultasi -->
+        <div class="pra-konsultasi-card">
+          <div class="pra-info-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Lihat hasil Formulir Pra-Konsultasi yang di isi Mahasiswa
+          </div>
+          <div class="pra-link" onclick="alert('Detail formulir – backend')">
+            <span class="pra-link-text">Hasil Formulir Pra-konsultasi</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <!-- Status Permintaan -->
+        <div class="status-permintaan-card">
+          <div class="status-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        <div class="status-label" id="bookingStatusLabel">STATUS PERMINTAAN</div>
+        <div class="status-value" id="bookingStatusValue">Menunggu<br>Persetujuan</div>
+          <button class="terima-permintaan-btn" id="terimaBtn" onclick="showModal('terima')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            Terima Permintaan
+          </button>
+          <button class="tolak-permintaan-btn" id="tolakBtn" onclick="showModal('tolak')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Tolak Permintaan
+          </button>
+        </div>
+
+        <!-- Detail Pelaksanaan -->
+        <div class="pelaksanaan-card">
+          <div class="pelaksanaan-title">Detail Pelaksanaan</div>
+          <div class="pelaksanaan-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div><div class="pelaksanaan-label">Tanggal</div><div class="pelaksanaan-value">Kamis, 24 Oktober 2026</div></div>
+          </div>
+          <div class="pelaksanaan-item" id="pelaksanaanWaktu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div><div class="pelaksanaan-label">Waktu</div><div class="pelaksanaan-value">14:00 – 15:00 WIB</div></div>
+          </div>
+          <div class="pelaksanaan-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><div class="pelaksanaan-label">Lokasi</div><div class="pelaksanaan-value">Ruang Konseling A2</div></div>
+          </div>
+        </div> 
+
+        <!-- Tips -->
+        <div class="tips-card">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Tips: Siapkan catatan perkembangan Rizky dari sesi sebelumnya untuk membantu proses konseling hari ini.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Terima -->
+  <div class="modal-overlay" id="modalTerima">
+    <div class="modal-box">
+      <div class="modal-icon">✅</div>
+      <div class="modal-title">Terima Permintaan?</div>
+      <div class="modal-sub">Anda akan menerima sesi konseling dari <strong>Rizky Aditya</strong> pada Kamis, 24 Oktober 2026 pukul 14:00 WIB.</div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal()">Batal</button>
+        <button class="btn-primary" onclick="konfirmasiTerima()">Ya, Terima</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Tolak -->
+  <div class="modal-overlay" id="modalTolak">
+    <div class="modal-box">
+      <div class="modal-icon">❌</div>
+      <div class="modal-title">Tolak Permintaan?</div>
+      <div class="modal-sub">Apakah Anda yakin ingin menolak sesi dari <strong>Rizky Aditya</strong>? Mahasiswa akan mendapatkan notifikasi.</div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal()">Batal</button>
+        <button class="btn-primary" style="background:#EF4444;" onclick="konfirmasiTolak()">Ya, Tolak</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    function showModal(type) {
+      document.getElementById(type === 'terima' ? 'modalTerima' : 'modalTolak').classList.add('show');
+    }
+    function closeModal() {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+    }
+    function konfirmasiTerima() {
+      closeModal();
+      showToast('Permintaan sesi berhasil diterima!');
+      setTimeout(() => window.location.href = 'detail-mahasiswa.html', 2000);
+    }
+    function konfirmasiTolak() {
+      closeModal();
+      showToast('Permintaan sesi ditolak.');
+      setTimeout(() => window.location.href = 'jadwal-konselor.html', 2000);
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', e => { if (e.target === m) closeModal(); });
+    });
+  </script>
+</body>
+</html>

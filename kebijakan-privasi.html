@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kebijakan Privasi – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .kp-page { max-width: 900px; margin: 0 auto; padding: calc(var(--nav-h) + 40px) 24px 80px; }
+    .kp-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 50px; margin-bottom: 16px; }
+    .kp-title { font-family: var(--font-serif); font-size: clamp(32px, 5vw, 52px); color: var(--primary); margin-bottom: 16px; }
+    .kp-intro { font-size: 15px; color: var(--text-mid); line-height: 1.8; max-width: 640px; margin-bottom: 48px; }
+
+    .kp-section { margin-bottom: 48px; }
+    .kp-section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .kp-section-icon { width: 40px; height: 40px; background: var(--primary-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
+    .kp-section-header h2 { font-size: 20px; font-weight: 700; }
+    .kp-body p { font-size: 14px; color: var(--text-mid); line-height: 1.8; margin-bottom: 14px; }
+
+    .kp-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+    .kp-info-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; }
+    .kp-info-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .kp-info-card p { font-size: 13px; color: var(--text-light); line-height: 1.7; margin: 0; }
+
+    .kp-usage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .kp-usage-item { background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); padding: 16px; display: flex; align-items: flex-start; gap: 10px; }
+    .kp-usage-item svg { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+    .kp-usage-item p { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin: 0; }
+
+    .kp-dark-box {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 32px;
+      color: white;
+      margin-top: 16px;
+    }
+    .kp-dark-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .kp-dark-box p { font-size: 14px; opacity: 0.85; line-height: 1.8; margin-bottom: 20px; }
+    .kp-dark-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .kp-dark-card { background: rgba(255,255,255,0.1); border-radius: var(--radius-sm); padding: 16px; }
+    .kp-dark-card-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .kp-dark-card-text { font-size: 12px; opacity: 0.75; line-height: 1.6; }
+
+    .kp-rights-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .kp-right-item { display: flex; align-items: flex-start; gap: 10px; }
+    .kp-right-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; margin-top: 7px; }
+    .kp-right-item p { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin: 0; }
+
+    .kp-contact-box {
+      background: var(--primary-light);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 16px;
+    }
+    .kp-contact-icon { width: 56px; height: 56px; background: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .kp-contact-info h4 { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .kp-contact-info p { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+<a href="javascript:void(0);" onclick="history.back();" class="btn-back">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12"></line>
+    <polyline points="12 19 5 12 12 5"></polyline>
+  </svg>
+  <span>Kembali</span>
+</a>
+  <div class="kp-page">
+    <div class="kp-badge">🔒 KOMITMEN KEAMANAN</div>
+    <h1 class="kp-title">Kebijakan Privasi</h1>
+    <p class="kp-intro">Privasi Anda adalah landasan utama dalam perjalanan kesehatan mental Anda. Kami berkomitmen untuk melindungi setiap detil data Anda di RICE Asesmen dengan standar keamanan tertinggi.</p>
+
+    <!-- 1. Pendahuluan -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h2>1. Pendahuluan</h2>
+      </div>
+      <div class="kp-body">
+        <p>Selamat datang di RICE Asesmen, platform kesejahteraan mahasiswa Politeknik Negeri Media Kreatif. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan menjaga data Anda untuk memberikan dukungan kesehatan mental yang aman dan terpercaya.</p>
+        <p>Kami memahami bahwa data kesehatan mental bersifat sangat sensitif. Oleh karena itu, prinsip privasi kami melampaui kepatuhan hukum: itu adalah janji etis kami kepada setiap mahasiswa yang menggunakan layanan kami. Transparansi dan integritas adalah prioritas utama kami.</p>
+      </div>
+    </div>
+
+    <!-- 2. Informasi yang Dikumpulkan -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h2>2. Informasi yang Dikumpulkan</h2>
+      </div>
+      <div class="kp-info-grid">
+        <div class="kp-info-card">
+          <h4>Identitas Dasar</h4>
+          <p>Informasi seperti nama lengkap, nomor induk mahasiswa (NIM), dan alamat email institusi untuk verifikasi status mahasiswa aktif dan memastikan layanan hanya diakses oleh civitas akademika yang berhak.</p>
+        </div>
+        <div class="kp-info-card" style="border-left: 3px solid var(--primary);">
+          <h4>Data Konseling &amp; Asesmen</h4>
+          <p>Jawaban formulir pra-konseling, hasil tes psikologi (skrining awal), serta catatan sesi anonim yang digunakan konselor untuk membantu Anda dalam memberikan rekomendasi yang paling tepat sesuai kondisi Anda.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Penggunaan Data -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <h2>3. Penggunaan Data</h2>
+      </div>
+      <div class="kp-usage-grid">
+        <div class="kp-usage-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          <p>Personalisasi dukungan mental berdasarkan profil kebutuhan unik Anda.</p>
+        </div>
+        <div class="kp-usage-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          <p>Pemantauan perkembangan kesejahteraan mahasiswa secara agregat (tanpa identitas).</p>
+        </div>
+        <div class="kp-usage-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          <p>Penyediaan referensi yang relevan di Resource Center kami untuk edukasi mandiri.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Keamanan -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h2>4. Keamanan Data &amp; Protokol Enkripsi</h2>
+      </div>
+      <div class="kp-dark-box">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Standar Keamanan Tertinggi
+        </h3>
+        <p>Kami menerapkan standar enkripsi end-to-end (E2EE) untuk semua catatan sesi konseling. Data Anda disimpan di infrastruktur server terenkripsi dengan akses berlapis yang hanya diizinkan bagi tenaga ahli profesional yang memiliki kewenangan legal.</p>
+        <div class="kp-dark-cards">
+          <div class="kp-dark-card">
+            <div class="kp-dark-card-title">INCOGNITO</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.6;margin-bottom:6px;">Anonimitas</div>
+            <div class="kp-dark-card-text">Mode anonim optional tersedia untuk interaksi awal guna memberikan rasa aman maksimal.</div>
+          </div>
+          <div class="kp-dark-card">
+            <div class="kp-dark-card-title">AES-256</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.6;margin-bottom:6px;">Enkripsi</div>
+            <div class="kp-dark-card-text">Enkripsi tingkat militer pada setiap lapisan penyimpanan data di cloud server kami.</div>
+          </div>
+          <div class="kp-dark-card">
+            <div class="kp-dark-card-title">AUDIT TRAIL</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.6;margin-bottom:6px;">Pemantauan</div>
+            <div class="kp-dark-card-text">Pencatatan setiap akses data sensitif secara real-time untuk mencegah penyalahgunaan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Hak Pengguna -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h2>5. Hak Pengguna</h2>
+      </div>
+      <div class="kp-rights-list">
+        <div class="kp-right-item"><div class="kp-right-dot"></div><p>Hak untuk mengakses data pribadi Anda secara lengkap dan mengunduhnya.</p></div>
+        <div class="kp-right-item"><div class="kp-right-dot"></div><p>Hak untuk meminta penghapusan akun secara permanen beserta seluruh riwayat data.</p></div>
+        <div class="kp-right-item"><div class="kp-right-dot"></div><p>Hak untuk memperbarui atau mengoreksi informasi profil yang sudah tidak akurat.</p></div>
+        <div class="kp-right-item"><div class="kp-right-dot"></div><p>Hak untuk menarik persetujuan pemrosesan data kapan saja melalui pengaturan akun.</p></div>
+      </div>
+    </div>
+
+    <!-- 6. Hubungi Kami -->
+    <div class="kp-section">
+      <div class="kp-section-header">
+        <div class="kp-section-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <h2>6. Hubungi Kami</h2>
+      </div>
+      <div class="kp-contact-box">
+        <div class="kp-contact-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="kp-contact-info">
+          <h4>Hubungi Tim Privasi</h4>
+          <p>Punya pertanyaan, kekhawatiran, atau masukan tentang bagaimana kami mengelola privasi data Anda? Tim Privasi kami siap memberikan penjelasan lebih lanjut secara personal.</p>
+          <a href="kontak.html" class="btn-primary" style="display:inline-flex;">Hubungi Tim Keamanan Data →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>

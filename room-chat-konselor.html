@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Chat Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { overflow: hidden; }
+    .konselor-chat-layout {
+      display: grid;
+      grid-template-columns: 200px 1fr 280px;
+      height: calc(100vh - var(--nav-h));
+      margin-top: var(--nav-h);
+    }
+
+    /* LEFT SIDEBAR - info sesi */
+    .sesi-info-sidebar {
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sesi-info-label { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-light); text-transform: uppercase; margin-bottom: 8px; }
+    .mahasiswa-info-card {
+      background: var(--primary-light);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+    .mhs-avatar-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .mhs-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .mhs-meta { font-size: 11px; color: var(--text-mid); }
+    .timer-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: white;
+      border-radius: 50px;
+      padding: 5px 10px;
+      font-size: 12px; font-weight: 700;
+      color: var(--primary);
+      margin-top: 10px;
+    }
+
+    .template-section { flex: 1; }
+    .template-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .template-item:hover { border-color: var(--primary); background: var(--primary-light); }
+    .template-title { font-size: 12px; font-weight: 700; margin-bottom: 2px; color: var(--text); }
+    .template-preview { font-size: 11px; color: var(--text-light); line-height: 1.4; }
+
+    .akhiri-btn {
+      width: 100%;
+      padding: 12px;
+      background: #EF4444;
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .akhiri-btn:hover { background: #DC2626; }
+
+    /* RIGHT SIDEBAR - catatan konselor */
+    .catatan-sidebar {
+      background: white;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+      gap: 16px;
+    }
+    .catatan-title {
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; gap: 8px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .catatan-textarea {
+      flex: 1;
+      resize: none;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+      line-height: 1.6;
+    }
+    .catatan-textarea:focus { border-color: var(--primary); background: white; }
+    .catatan-textarea::placeholder { color: var(--text-light); }
+
+    .identifikasi-label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: var(--text-light); margin-bottom: 10px; }
+    .identifikasi-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .id-tag {
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .id-tag:hover { border-color: var(--primary); }
+
+    .simpan-draft-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      color: var(--text-mid);
+    }
+    .simpan-draft-btn:hover { border-color: var(--primary); color: var(--primary); }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+        <li><a href="jadwal-konselor.html" class="nav-link active">Jadwal</a></li>
+        <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="konselor-chat-layout">
+
+    <!-- LEFT: INFO SESI -->
+    <div class="sesi-info-sidebar">
+      <div>
+        <div class="sesi-info-label">Informasi Sesi</div>
+        <div class="mahasiswa-info-card">
+          <div class="mhs-avatar-circle">AS</div>
+          <div class="mhs-name">rizky aditya</div>
+          <div class="mhs-meta">Mahasiswa Tingkat 3</div>
+          <div class="timer-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="sesiTimer">42:15</span> Tersisa
+          </div>
+        </div>
+      </div>
+
+      <div class="template-section">
+        <div class="sesi-info-label">Template Pesan</div>
+        <div class="template-item" onclick="useTemplate('Halo, selamat datang di sesi hari ini. Bagaimana kabarmu?')">
+          <div class="template-title">Salam Pembuka</div>
+          <div class="template-preview">"Halo, selamat datang di sesi hari ini. Bagaimana perasaanmu?"</div>
+        </div>
+        <div class="template-item" onclick="useTemplate('Saya mengerti ini sulit bagimu. Terima kasih sudah berbagi.')">
+          <div class="template-title">Empati</div>
+          <div class="template-preview">"Saya mengerti ini sulit bagimu. Terima kasih sudah berbagi."</div>
+        </div>
+        <div class="template-item" onclick="useTemplate('Terima kasih atas sesinya. Semoga langkah kecil ini membantumu.')">
+          <div class="template-title">Penutup</div>
+          <div class="template-preview">"Terima kasih atas sesinya. Semoga langkah kecil ini membantumu."</div>
+        </div>
+      </div>
+
+      <button class="akhiri-btn" onclick="akhiriSesi()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        Akhiri Sesi
+      </button>
+    </div>
+
+    <!-- CENTER: CHAT -->
+    <div class="chat-main">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div style="width:42px;height:42px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--primary);font-size:15px;flex-shrink:0;">M</div>
+          <div>
+            <div class="chat-header-name-wrap">
+              <span class="chat-header-name">Mahasiswa</span>
+            </div>
+            <div class="chat-header-status">Sedang Berlangsung</div>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be loaded here -->
+        <div class="msg-row sent">
+          <div>
+            <div class="msg-bubble sent">halo selamat datang di sesi hari ini, bagaimana kabarmu</div>
+            <div class="msg-time sent">10:43 AM</div>
+          </div>
+        </div>
+
+        <div class="msg-row">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary);flex-shrink:0;">M</div>
+          <div>
+            <div class="msg-bubble received">Halo! Selamat datang di ruang aman ini. Bagaimana perasaanmu hari ini? Saya di sini untuk mendengarkan ceritamu tanpa menghakimi. 😊</div>
+            <div class="msg-time">10:45 AM</div>
+          </div> 
+        </div>
+
+        <div class="msg-row" id="typingRow">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary);flex-shrink:0;">M</div>
+          <div class="msg-bubble received typing-indicator">
+            <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="chat-input-actions">
+          <button class="chat-action-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Kirim File
+          </button>
+        </div>
+        <div class="chat-input-row">
+          <button class="chat-input-plus"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+          <input type="text" class="chat-input" id="chatInput" placeholder="Tuliskan ceritamu di sini..." onkeydown="handleEnter(event)" />
+          <button class="chat-mic-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          <button class="chat-send-btn" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: CATATAN KONSELOR -->
+    <div class="catatan-sidebar">
+      <div class="catatan-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        CATATAN KONSELOR
+      </div>
+
+      <textarea class="catatan-textarea" id="catatanArea" placeholder="Tuliskan pengamatan klinis, poin-poin penting, atau rencana tindak lanjut di sini..."></textarea>
+
+      <div class="identifikasi-section">
+        <div class="identifikasi-label">IDENTIFIKASI MASALAH</div>
+        <div class="identifikasi-tags">
+          <span class="id-tag" onclick="toggleTag(this)">Akademik</span>
+          <span class="id-tag" onclick="toggleTag(this)" style="background:var(--primary);color:white;">Kecemasan</span>
+          <span class="id-tag" onclick="toggleTag(this)" style="background:var(--primary);color:white;">Manajemen Waktu</span>
+          <span class="id-tag" onclick="toggleTag(this)">Relasi</span>
+          <span class="id-tag" onclick="toggleTag(this)">Self-Esteem</span>
+          <span class="id-tag" onclick="toggleTag(this)">Karir</span>
+        </div>
+      </div>
+
+      <button class="simpan-draft-btn" onclick="simpanDraft()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Simpan Draft
+      </button>
+    </div>
+  </div>
+
+  <div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+  <script>
+    // Timer countdown 42:15
+    let totalSec = 42 * 60 + 15;
+    function updateTimer() {
+      if (totalSec <= 0) return;
+      totalSec--;
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      document.getElementById('sesiTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+    setInterval(updateTimer, 1000);
+
+    const KONSELOR_ID = 'k1'; // Asumsi konselor yang login
+    const BOOKING_ID = new URLSearchParams(window.location.search).get('bookingId');
+    let MAHASISWA_ID = null;
+
+    function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      const messages = document.getElementById('chatMessages');
+      const typingRow = document.getElementById('typingRow');
+
+      const msgRow = document.createElement('div'); // Pesan yang dikirim konselor
+      msgRow.className = 'msg-row sent';
+      msgRow.innerHTML = `<div><div class="msg-bubble sent">${text}</div><div class="msg-time sent">${getTime()}</div></div>`;
+      messages.insertBefore(msgRow, typingRow);
+
+      typingRow.style.display = 'flex';
+      messages.scrollTop = messages.scrollHeight;
+
+      // Kirim pesan ke backend
+      fetch(`http://localhost:5000/api/chat/${BOOKING_ID}/pesan`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senderId: KONSELOR_ID, text: text })
+      }).then(res => res.json())
+        .then(data => {
+            console.log("Pesan terkirim:", data);
+        })
+        .catch(err => {
+            console.error("Gagal mengirim pesan:", err);
+            showToast('Gagal mengirim pesan.');
+        });
+
+      setTimeout(() => {
+        const replies = [
+          'Saya mengerti. Bisa ceritakan lebih lanjut bagian mana yang paling berat?',
+          'Terima kasih sudah terbuka. Perasaan itu sangat wajar.',
+          'Apa yang membuat Anda merasa seperti itu belakangan ini?',
+        ];
+        typingRow.style.display = 'none';
+        const replyRow = document.createElement('div');
+        replyRow.className = 'msg-row'; // Simulasi balasan dari mahasiswa
+        replyRow.innerHTML = `
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary);flex-shrink:0;">M</div>
+          <div><div class="msg-bubble received">${replies[Math.floor(Math.random()*replies.length)]}</div><div class="msg-time">${getTime()}</div></div>`;
+        messages.appendChild(replyRow);
+        messages.appendChild(typingRow);
+        messages.scrollTop = messages.scrollHeight;
+      }, 2000);
+    }
+
+    function getTime() {
+      return new Date().toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    function useTemplate(text) {
+      document.getElementById('chatInput').value = text;
+      document.getElementById('chatInput').focus();
+    }
+
+    function toggleTag(el) {
+      const isActive = el.style.background === 'var(--primary)' || el.style.background === 'rgb(42, 126, 108)';
+      el.style.background = isActive ? 'var(--primary-light)' : 'var(--primary)';
+      el.style.color = isActive ? 'var(--primary)' : 'white';
+    }
+
+    function simpanDraft() {
+      showToast('Catatan berhasil disimpan!');
+    }
+
+    function akhiriSesi() {
+      if (confirm('Apakah Anda yakin ingin mengakhiri sesi ini?')) {
+        window.location.href = 'riwayat-konselor.html';
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+  </script>
+</body>
+</html>

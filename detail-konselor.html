@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link active">Konselor</a></li>
+        <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- HERO KONSELOR -->
+    <div class="detail-konselor-hero">
+      <div style="position:relative; flex-shrink:0;">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Dra. Siti Aminah"
+          style="width:200px;height:240px;border-radius:var(--radius);object-fit:cover;" />
+        <div class="dk-rank">RANK<span>#12</span></div>
+      </div>
+      <div class="dk-info">
+        <div class="dk-tags">
+          <span class="dk-tag-primary">SENIOR COUNSELOR</span>
+          <span class="dk-rating">★ 4.9 (240 reviews)</span>
+        </div>
+        <h1 class="dk-name">Dra. Siti Aminah</h1>
+        <p class="dk-desc">Specializing in adolescent cognitive behavioral therapy with 15 years of experience in higher education mental health systems. Dedicated to helping students navigate academic pressure and personal growth through empathetic, evidence-based dialogue.</p>
+        <div class="dk-actions">
+          <a href="booking.html" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Book Session
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDIDIKAN & KEAHLIAN -->
+    <div class="dk-section">
+      <div class="dk-section-content">
+        <div class="dk-info-grid">
+          <div class="dk-info-col">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Riwayat Pendidikan
+            </h4>
+            <div class="education-item">
+              <div class="education-name">Politeknik Negeri Media Kreatif</div>
+              <div class="education-year">2019 – Magister</div>
+            </div>
+          </div>
+          <div class="dk-info-col">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              Topik Keahlian
+            </h4>
+            <div class="skill-tags">
+              <span class="skill-tag">🤕Trauma </span>
+              <span class="skill-tag">😔 Grief</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTIKEL -->
+    <div class="dk-section" style="border-top:none; padding-top:0;">
+      <div class="dk-section-content">
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Artikel yang dibagikan</h3>
+        <div class="articles-grid" style="grid-template-columns:repeat(2,1fr);">
+          <div class="article-card">
+            <!-- Articles will be loaded here -->
+        </div>
+      </div>
+    </div>
+    <!-- RATING & ULASAN -->
+    <div class="dk-section">
+      <div class="dk-section-content">
+        <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;">Ulasan &amp; Rating Mahasiswa</h3>
+        <div class="rating-layout">
+          <div class="rating-summary">
+            <div class="rating-big">4.9</div>
+            <div class="stars">★★★★★</div>
+            <div class="rating-count">240 REVIEWS</div>
+            <div class="rating-bars">
+              <div class="rating-bar-row"><span>5</span><div class="rating-mini-bar"><div class="rating-mini-fill" style="width:90%"></div></div><span class="rating-count-sm">216</span></div>
+              <div class="rating-bar-row"><span>4</span><div class="rating-mini-bar"><div class="rating-mini-fill" style="width:8%"></div></div><span class="rating-count-sm">19</span></div>
+              <div class="rating-bar-row"><span>3</span><div class="rating-mini-bar"><div class="rating-mini-fill" style="width:2%"></div></div><span class="rating-count-sm">5</span></div>
+              <div class="rating-bar-row"><span>2</span><div class="rating-mini-bar"><div class="rating-mini-fill" style="width:0%"></div></div><span class="rating-count-sm">0</span></div>
+              <div class="rating-bar-row"><span>1</span><div class="rating-mini-bar"><div class="rating-mini-fill" style="width:0%"></div></div><span class="rating-count-sm">0</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="reviews-list">
+              <div class="review-item">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar">RA</div>
+                    <div>
+                      <div class="reviewer-name">Rizky Aditya</div>
+                      <div class="reviewer-date">12 OKT 2023</div>
+                    </div>
+                  </div>
+                  <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-text">Dra. Siti sangat membantu saya dalam mengatasi kecemasan menghadapi tugas akhir. Teknik pernapasan yang diajarkan benar-benar efektif saat saya mulai merasa overwhelm.</p>
+              </div>
+              <div class="review-item">
+                <div class="review-header">
+                  <div class="reviewer-info">
+                    <div class="reviewer-avatar" style="background:#E5E7EB;color:#6B7280;">?</div>
+                    <div>
+                      <div class="reviewer-name">Mahasiswa Anonim</div>
+                      <div class="reviewer-date">05 OKT 2023</div>
+                    </div>
+                  </div>
+                  <div class="review-stars">★★★★☆</div>
+                </div>
+                <p class="review-text">Sangat informatif dan memberikan perspektif baru tentang cara mengatur waktu antara organisasi dan akademik. Terima kasih!</p>
+              </div>
+            </div>
+            <button class="lihat-semua-btn">Lihat Semua Ulasan</button>
+            <div class="ulasan-cta">
+              <div>
+                <h4>Punya pengalaman berkonsultasi?</h4>
+                <p>Bagikan ulasan Anda untuk membantu rekan mahasiswa lainnya.</p>
+              </div>
+              <a href="detail-ulasan-rating.html" class="btn-primary">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  Berikan Ulasan
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+  <script>
+    async function loadDetailKonselor() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (!id) return;
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/konselor/${id}`);
+        const k = await res.json();
+        
+        if (k.error) return;
+
+        // Update UI
+        document.querySelector('.dk-name').textContent = k.nama;
+        document.querySelector('.dk-desc').textContent = k.bio;
+        document.querySelector('.dk-rating').textContent = `★ ${k.rating} (Review Backend)`;
+        document.querySelector('.dk-tag-primary').textContent = k.role.toUpperCase();
+        document.querySelector('.dk-actions .btn-primary').href = `booking.html?id=${k.id}`;
+        
+        const img = document.querySelector('.detail-konselor-hero img');
+        if (k.foto) img.src = k.foto;
+
+        // Update Topik Keahlian
+        const skillTagsContainer = document.querySelector('.skill-tags');
+        if (skillTagsContainer) {
+          skillTagsContainer.innerHTML = (k.topik_keahlian || []).map(tag => `<span class="skill-tag">${tag}</span>`).join('');
+        }
+
+        // Update Riwayat Pendidikan
+        const eduContainer = document.querySelector('.dk-info-col:first-child .education-item');
+        if (eduContainer && k.pendidikan && k.pendidikan.length > 0) {
+          eduContainer.innerHTML = k.pendidikan.map(edu => `
+            <div class="education-name">${edu.gelar} ${edu.institusi}</div>
+            <div class="education-year">${edu.tahun}</div>
+          `).join('');
+        } else if (eduContainer) {
+          eduContainer.innerHTML = '<div class="education-name">Tidak ada data pendidikan</div>';
+        }
+
+        // Load articles by this konselor
+        loadKonselorArticles(k.id);
+      } catch (err) {
+        console.error("Gagal memuat detail:", err);
+        // Handle 404 or other errors
+        document.querySelector('.detail-konselor-hero').innerHTML = '<p>Konselor tidak ditemukan atau terjadi kesalahan.</p>';
+      }
+    }
+
+    async function loadKonselorArticles(konselorId) {
+      const articlesGrid = document.querySelector('.articles-grid');
+      try {
+        const res = await fetch(`http://localhost:5000/api/artikel?konselorId=${konselorId}`);
+        const articles = await res.json();
+        articlesGrid.innerHTML = articles.map(a => `
+          <div class="article-card">
+            <div class="article-img" style="background-image:url('${a.coverImage}'); background-size:cover;"><span class="article-tag">${(a.tags && a.tags.length > 0 ? a.tags[0] : 'Artikel')}</span></div>
+            <div class="article-body">
+              <h4>${a.judul}</h4>
+              <p>${a.konten.substring(0, 100)}...</p>
+              <div class="article-meta"><span>${Math.ceil(a.konten.length / 1000) * 2} MIN READ</span><span>${new Date(a.tanggal).toLocaleDateString()}</span></div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error("Gagal memuat artikel konselor:", err);
+      }
+    }
+    window.onload = loadDetailKonselor;
+  </script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Sesi – TemanCerita Konselor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .detail-mhs-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+      padding: calc(var(--nav-h) + 36px) 0 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .page-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--text-mid);
+      margin-bottom: 6px; cursor: pointer;
+    }
+    .page-back:hover { color: var(--primary); }
+    .detail-page-title { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .detail-page-sub { font-size: 13px; color: var(--text-light); margin-bottom: 28px; }
+
+    /* Mahasiswa card */
+    .mhs-profile-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .mhs-profile-row { display: flex; align-items: center; gap: 16px; }
+    .mhs-big-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--primary-light);
+      flex-shrink: 0;
+    }
+    .mhs-tag { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 3px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+    .mhs-big-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .mhs-prodi { font-size: 14px; color: var(--text-mid); margin-bottom: 10px; }
+    .mhs-contacts { display: flex; gap: 12px; }
+    .mhs-contact-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px;
+      font-size: 12px; font-weight: 600; color: var(--text-mid);
+    }
+
+    /* Info awal */
+    .info-awal-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .info-awal-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+    .keluhan-bubble {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 16px;
+      border-left: 3px solid var(--primary);
+    }
+    .skala-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .skala-box {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      border: 1px solid var(--border);
+    }
+    .skala-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-light); margin-bottom: 8px; }
+    .skala-bar { height: 8px; background: var(--border); border-radius: 50px; overflow: hidden; margin-bottom: 4px; }
+    .skala-fill { height: 100%; background: #EF4444; border-radius: 50px; }
+    .skala-value { font-size: 12px; font-weight: 700; color: #EF4444; }
+    .topik-value { font-size: 14px; font-weight: 700; color: var(--primary); }
+
+    /* Formulir pra konsultasi */
+    .pra-konsultasi-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .pra-info-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 20px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px; color: var(--text-mid);
+    }
+    .pra-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pra-link:hover { background: var(--primary-light); }
+    .pra-link-text { font-size: 14px; font-weight: 700; color: var(--primary); }
+
+    /* RIGHT: COUNTDOWN + ACTIONS */
+    .countdown-card {
+      background: var(--primary);
+      border-radius: var(--radius);
+      padding: 28px;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .countdown-card-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.7; margin-bottom: 10px; text-align: center; }
+    .countdown-display {
+      font-family: var(--font-serif);
+      font-size: 52px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+    }
+    .countdown-units {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      opacity: 0.6;
+      margin-bottom: 24px;
+    }
+    .mulai-btn {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 14px; font-weight: 700;
+      font-family: var(--font);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    .mulai-btn:hover, .mulai-btn.active-btn {
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
+    }
+    .konfirmasi-btn {
+      width: 100%;
+      padding: 13px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.8);
+      font-size: 13px; font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .konfirmasi-btn:hover { background: rgba(255,255,255,0.2); }
+
+    /* Detail Pelaksanaan */
+    .pelaksanaan-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .pelaksanaan-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .pelaksanaan-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .pelaksanaan-item:last-child { margin-bottom: 0; }
+    .pelaksanaan-item svg { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+    .pelaksanaan-label { font-size: 11px; color: var(--text-light); margin-bottom: 2px; }
+    .pelaksanaan-value { font-size: 13px; font-weight: 700; }
+
+    /* Tips */
+    .tips-card {
+      background: var(--primary-light);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--text-mid); line-height: 1.6;
+    }
+    .tips-card svg { color: var(--primary); flex-shrink: 0; margin-top: 2px; }
+
+    /* Mode toggle */
+    .mode-switcher {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 4px;
+      margin-bottom: 24px;
+      width: fit-content;
+    }
+    .mode-switch-btn {
+      padding: 7px 18px;
+      border-radius: 50px;
+      border: none;
+      background: transparent;
+      font-size: 13px; font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      color: var(--text-mid);
+      transition: all 0.2s;
+    }
+    .mode-switch-btn.active { background: white; color: var(--primary); box-shadow: 0 1px 6px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+        <li><a href="jadwal-konselor.html" class="nav-link active">Jadwal</a></li>
+        <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="detail-mhs-layout">
+
+      <!-- LEFT -->
+      <div>
+        <div class="page-back" onclick="history.back()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </div>
+        <div class="detail-page-title">Detail Sesi</div>
+        <div class="detail-page-sub">Informasi lengkap terkait sesi konseling mendatang.</div>
+
+        <!-- Mode Switcher (Online/Offline view) -->
+        <div class="mode-switcher">
+          <button class="mode-switch-btn active" onclick="switchMode('online',this)">🌐 Online</button>
+          <button class="mode-switch-btn" onclick="switchMode('offline',this)">📍 Offline</button>
+        </div>
+
+        <!-- Mahasiswa Profile -->
+        <div class="mhs-profile-card">
+          <div class="mhs-profile-row">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80" class="mhs-big-avatar" alt="Rizky Aditya" />
+            <div>
+              <div class="mhs-tag">Mahasiswa</div>
+              <div class="mhs-big-name">Rizky Aditya</div>
+              <div class="mhs-prodi">Teknik Informatika • Semester 7</div>
+              <div class="mhs-contacts">
+                <div class="mhs-contact-chip">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  rizky.aditya@polimedia.ac.id
+                </div>
+                <div class="mhs-contact-chip">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2 Sesi Sebelumnya
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Awal -->
+        <div class="info-awal-card">
+          <div class="info-awal-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Informasi Awal dari Mahasiswa
+          </div>
+          <div class="keluhan-bubble">
+            "Saya merasa sangat tertekan dengan progres skripsi akhir-akhir ini. Sulit fokus dan sering merasa cemas saat harus bertemu pembimbing. Saya membutuhkan arahan bagaimana mengelola rasa stres ini agar tetap produktif."
+          </div>
+          <div class="skala-grid">
+            <div class="skala-box">
+              <div class="skala-label">SKALA STRES</div>
+              <div class="skala-bar"><div class="skala-fill" style="width:80%"></div></div>
+              <div class="skala-value">Tinggi (8/10)</div>
+            </div>
+            <div class="skala-box">
+              <div class="skala-label">TOPIK UTAMA</div>
+              <div class="topik-value">Akademik &amp; Kecemasan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulir Pra-Konsultasi -->
+        <div class="pra-konsultasi-card">
+          <div class="pra-info-bar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Lihat hasil Formulir Pra-Konsultasi yang di isi Mahasiswa
+          </div>
+          <div class="pra-link" onclick="alert('Detail formulir pra-konsultasi – backend')">
+            <span class="pra-link-text">Hasil Formulir Pra-konsultasi</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <!-- Countdown -->
+        <div class="countdown-card">
+          <div class="countdown-card-label">SESI DIMULAI DALAM</div>
+          <div class="countdown-display" id="countdownDisplay">00:15:30</div>
+          <div class="countdown-units">
+            <span>JAM</span><span>MENIT</span><span>DETIK</span>
+          </div>
+          <button class="mulai-btn" onclick="window.location.href='room-chat-konselor.html'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Mulai Sesi
+          </button>
+          <button class="konfirmasi-btn">Konfirmasi Kehadiran</button>
+        </div>
+
+        <!-- Detail Pelaksanaan -->
+        <div class="pelaksanaan-card">
+          <div class="pelaksanaan-title">Detail Pelaksanaan</div>
+          <div class="pelaksanaan-item" id="pelaksanaanItems">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div>
+              <div class="pelaksanaan-label">Tanggal</div>
+              <div class="pelaksanaan-value" id="pelaksanaanTanggal">Kamis, 24 Oktober 2026</div>
+            </div>
+          </div>
+          <div class="pelaksanaan-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div>
+              <div class="pelaksanaan-label">Waktu</div>
+              <div class="pelaksanaan-value" id="pelaksanaanWaktuValue">14:00 – 15:00 WIB</div>
+            </div>
+          </div>
+          <div class="pelaksanaan-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <div class="pelaksanaan-label">Lokasi</div>
+              <div class="pelaksanaan-value" id="lokasiValue">Online (Room Chat)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="tips-card">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="tipsText">Tips: Siapkan catatan perkembangan Rizky dari sesi sebelumnya untuk membantu proses konseling hari ini.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // Countdown
+    let sec = 15 * 60 + 30; // Default value
+    function tick() {
+      if (sec <= 0) {
+        document.getElementById('countdownDisplay').textContent = '00:00:00';
+        return;
+      }
+      sec--;
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      document.getElementById('countdownDisplay').textContent =
+        `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    async function loadBookingDetails() {
+        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
+        if (!bookingId) {
+            console.error("Booking ID tidak ditemukan di URL.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?id=${bookingId}`); // Perlu endpoint GET /api/bookings/:id
+            const bookings = await res.json();
+            const booking = bookings.find(b => b.id === bookingId);
+
+            if (booking) {
+                const mahasiswaRes = await fetch(`http://localhost:5000/api/profil?id=${booking.mahasiswaId}`);
+                const mahasiswa = await mahasiswaRes.json();
+
+                document.querySelector('.mhs-big-avatar').src = mahasiswa.foto;
+                document.querySelector('.mhs-big-name').textContent = mahasiswa.nama;
+                document.querySelector('.mhs-prodi').textContent = `${mahasiswa.prodi} • Semester ${mahasiswa.semester}`;
+                document.querySelector('.mhs-contact-chip:first-child').textContent = mahasiswa.email;
+
+                document.querySelector('.keluhan-bubble').textContent = booking.praKonseling?.deskripsi || 'Tidak ada deskripsi keluhan.';
+                document.querySelector('.skala-box:first-child .skala-value').textContent = `Tinggi (8/10)`; // Placeholder
+                document.querySelector('.skala-box:last-child .topik-value').textContent = booking.praKonseling?.topik || 'Tidak disebutkan';
+
+                const sessionDateTime = new Date(`${booking.tanggal}T${booking.jam}`);
+                document.getElementById('pelaksanaanTanggal').textContent = sessionDateTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                document.getElementById('pelaksanaanWaktuValue').textContent = `${booking.jam} – ${new Date(sessionDateTime.getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})} WIB`;
+                document.getElementById('lokasiValue').textContent = booking.mode === 'online' ? 'Online (Room Chat)' : 'Ruang Konseling A2';
+
+                sec = Math.max(0, Math.floor((sessionDateTime.getTime() - Date.now()) / 1000));
+                setInterval(tick, 1000);
+            } else {
+                console.error("Booking tidak ditemukan.");
+            }
+        } catch (err) {
+            console.error("Gagal memuat detail booking:", err);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBookingDetails);
+
+    function switchMode(mode, btn) {
+      document.querySelectorAll('.mode-switch-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (mode === 'offline') {
+        document.getElementById('lokasiValue').textContent = 'Gedung E Polimedia, Lantai 2, Area Konseling';
+        document.getElementById('tipsText').textContent = 'Tips: Pastikan ruangan konseling sudah disiapkan 10 menit sebelum sesi dimulai.';
+      } else {
+        document.getElementById('lokasiValue').textContent = 'Online (Room Chat)';
+        document.getElementById('tipsText').textContent = 'Tips: Siapkan catatan perkembangan Rizky dari sesi sebelumnya untuk membantu proses konseling hari ini.';
+      }
+    }
+  </script>
+</body>
+</html>

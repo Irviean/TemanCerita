@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- NAVBAR KONSELOR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+        <ul class="nav-links">
+          <li><a href="dashboard-konselor.html" class="nav-link active">Beranda</a></li>
+          <li><a href="jadwal-konselor.html" class="nav-link">Jadwal</a></li>
+          <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+          <li><a href="buat-artikel.html" class="nav-link">Artikel</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="container">
+      <div class="dashboard-hero">
+        <div class="dashboard-label">DASHBOARD KONSELOR</div>
+        <h1 class="dashboard-title" id="konselorWelcome">Selamat datang, Konselor</h1>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- LEFT COLUMN -->
+        <div>
+          <!-- Overview Card -->
+          <div class="dash-card dash-card-teal overview-card" style="margin-bottom:24px;">
+            <div style="font-size:12px;font-weight:700;background:white;display:inline-block;padding:4px 12px;border-radius:50px;margin-bottom:16px;color:var(--text-mid);">Overview Harian</div>
+            <h3 id="todaySessionsTitle">Sesi Konseling Hari Ini</h3>
+            <p>Anda telah menyelesaikan <strong>3 dari 5</strong> sesi.<br>Jadwal hari ini masih tersedia.</p>
+            <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+            <div class="overview-actions">
+              <button class="btn-primary" onclick="window.location.href='jadwal-konselor.html'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Atur Jadwal
+              </button>
+              <button class="btn-outline">Beban Harian</button>
+            </div>
+          </div>
+
+          <!-- Jadwal Hari Ini -->
+          <div class="jadwal-section">
+            <div class="jadwal-header">
+              <h4>Jadwal Sesi Hari Ini</h4>
+              <a href="jadwal-konselor.html">Lihat Semua ›</a>
+            </div>
+           <div class="session-list">
+            <div id="todaySessionsList">
+                <!-- Sessions will be loaded here -->
+            </div>
+            </div>
+          </div>
+
+          <!-- Aksi Cepat -->
+          <div style="margin-top:28px;">
+            <h4 style="font-size:16px;font-weight:700;margin-bottom:14px;">Aksi Cepat</h4>
+            <div class="aksi-cepat-grid">
+              <button class="aksi-btn" onclick="window.location.href='buat-artikel.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                <span>Kelola Artikel</span>
+              </button>
+              <button class="aksi-btn" onclick="window.location.href='riwayat-konselor.html'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Lihat Riwayat</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+          <!-- Total Sesi -->
+          <div class="total-sesi-card">
+            <div class="total-sesi-label">TOTAL SESI MINGGU INI</div>
+            <div class="total-sesi-num">24 Sesi</div>
+            <span class="total-sesi-badge">+4 dari minggu lalu</span>
+          </div>
+
+          <!-- Permintaan Konseling -->
+          <div class="dash-card permintaan-card" style="margin-bottom:20px;">
+            <h4>
+              Permintaan Konseling
+            </h4>
+            <div class="permintaan-list" id="newRequestsList"></div>
+            <a href="jadwal-konselor.html" class="btn-outline kelola-btn" style="display:block;text-align:center;">Kelola Semua Jadwal</a>
+          </div>
+
+          <!-- Notifikasi -->
+          <div class="dash-card notif-card">
+            <h4>Notifikasi Terbaru</h4>
+            <div class="notif-list">
+              <div id="notificationsList">
+                <!-- Notifications will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang-konselor.html">Tentang Kami</a></li>
+            <li><a href="kontak-konselor.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+  <script>
+    const KONSELOR_ID = 'k1'; // Asumsi konselor yang login
+    const today = new Date();
+    const todayFormatted = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+
+    async function loadKonselorDashboard() {
+      try {
+        const konselorRes = await fetch(`http://localhost:5000/api/konselor/${KONSELOR_ID}`);
+        const konselorData = await konselorRes.json();
+        if (konselorData) {
+          document.getElementById('konselorWelcome').textContent = `Selamat datang, ${konselorData.nama}`;
+        }
+
+        await loadTodaySessions();
+        await loadNewRequests();
+        await loadNotifications();
+      } catch (err) {
+        console.error("Gagal memuat dashboard konselor:", err);
+      }
+    }
+
+    async function loadTodaySessions() {
+      const sessionListContainer = document.getElementById('todaySessionsList');
+      sessionListContainer.innerHTML = '<p>Memuat sesi hari ini...</p>';
+      try {
+        const res = await fetch(`http://localhost:5000/api/bookings?konselorId=${KONSELOR_ID}&tanggal=${todayFormatted}`);
+        const sessions = await res.json();
+
+        let completedSessions = 0;
+        let totalSessions = 0;
+
+        if (sessions.length > 0) {
+          sessionListContainer.innerHTML = sessions.map(s => {
+            const isCompleted = s.status === 'Selesai';
+            const isConfirmed = s.status === 'Dikonfirmasi';
+            const isPending = s.status === 'Menunggu Persetujuan';
+            const isOngoing = isConfirmed && new Date(`${s.tanggal}T${s.jam}`).getTime() <= Date.now() && new Date(`${s.tanggal}T${s.jam}`).getTime() + (60 * 60 * 1000) > Date.now(); // Sesi berlangsung 1 jam
+
+            if (isCompleted) completedSessions++;
+            if (isConfirmed || isCompleted) totalSessions++; // Hanya hitung yang dikonfirmasi/selesai untuk progress bar
+
+            let statusChipClass = '';
+            let statusChipText = '';
+            let sessionModeIcon = '';
+            let actionButton = '';
+            let detailLink = '';
+
+            if (isOngoing) {
+              statusChipClass = 'berlangsung';
+              statusChipText = '● Berlangsung';
+              actionButton = `<a href="${s.mode === 'online' ? 'room-chat-konselor.html' : 'detail-mahasiswa-offline.html'}?bookingId=${s.id}" class="btn-primary" style="font-size:12px;padding:8px 14px;">${s.mode === 'online' ? 'Masuk Room' : 'Lihat Detail'}</a>`;
+            } else if (isConfirmed && new Date(`${s.tanggal}T${s.jam}`).getTime() > Date.now()) {
+              statusChipClass = ''; // Akan Dimulai
+              statusChipText = '⏳ Akan Dimulai';
+              actionButton = `<a href="waiting-room-konselor.html?bookingId=${s.id}" class="btn-outline" style="font-size:12px;padding:8px 14px;">Masuk Waiting Room</a>`;
+            } else if (isCompleted) {
+              statusChipClass = ''; // Selesai
+              statusChipText = '✓ Selesai';
+              actionButton = `<a href="riwayat-konselor.html?bookingId=${s.id}" class="btn-outline" style="font-size:12px;padding:8px 14px;">Lihat Riwayat</a>`;
+            } else {
+              statusChipClass = ''; // Belum Dimulai / Menunggu Persetujuan
+              statusChipText = 'Belum Dimulai';
+              actionButton = `<button class="btn-outline" style="font-size:12px;padding:8px 14px;opacity:0.45;cursor:not-allowed;" disabled>Masuk Room</button>`;
+            }
+
+            sessionModeIcon = s.mode === 'online' ? '🌐 Online' : '📍 Offline';
+            detailLink = s.mode === 'online' ? 'room-chat-konselor.html' : 'detail-mahasiswa-offline.html';
+
+            return `
+              <div class="session-item ${isOngoing ? 'active' : ''} ${isCompleted ? 'opacity:0.7;' : ''}">
+                <div class="session-avatar" style="background:${isCompleted ? '#D1FAE5;color:#065F46;' : 'var(--primary);color:white;'}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                </div>
+                <div class="session-info">
+                  <div class="session-name">${s.mahasiswa?.nama || 'Mahasiswa Anonim'}</div>
+                  <div class="session-meta">⏰ ${s.jam} – ${new Date(new Date(`${s.tanggal}T${s.jam}`).getTime() + 60 * 60 * 1000).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})} · ${s.praKonseling?.topik || 'Umum'}</div>
+                </div>
+                <div class="session-status">
+                  <span class="status-chip ${statusChipClass}">${statusChipText}</span>
+                  <span class="session-mode">${sessionModeIcon}</span>
+                </div>
+                <div class="session-actions">
+                  ${actionButton}
+                </div>
+              </div>`;
+          }).join('');
+        } else {
+          sessionListContainer.innerHTML = '<p>Tidak ada sesi hari ini.</p>';
+        }
+
+        document.getElementById('todaySessionsTitle').textContent = `Sesi Konseling Hari Ini (${totalSessions})`;
+        const progressBar = document.querySelector('.progress-bar');
+        const progressPercentage = totalSessions > 0 ? (completedSessions / totalSessions) * 100 : 0;
+        progressBar.style.width = `${progressPercentage}%`;
+
+      } catch (err) {
+        console.error("Gagal memuat sesi hari ini:", err);
+        sessionListContainer.innerHTML = '<p>Gagal memuat sesi hari ini.</p>';
+      }
+    }
+
+    async function loadNewRequests() {
+      const newRequestsList = document.getElementById('newRequestsList');
+      newRequestsList.innerHTML = '<p>Memuat permintaan baru...</p>';
+      try {
+        const res = await fetch(`http://localhost:5000/api/bookings?konselorId=${KONSELOR_ID}&status=Menunggu Persetujuan`);
+        const requests = await res.json();
+        if (requests.length > 0) {
+          newRequestsList.innerHTML = requests.map(r => `
+            <div class="permintaan-item">
+              <div class="new-dot"></div>
+              <div class="permintaan-info">
+                <div class="permintaan-name">${r.mahasiswa?.nama || 'Mahasiswa Anonim'}</div>
+                <div class="permintaan-time">${r.tanggal} (${r.jam})</div>
+              </div>
+              <a href="detail-mahasiswa-booking.html?bookingId=${r.id}" class="permintaan-link">Lebih Detail ›</a>
+            </div>
+          `).join('');
+        } else {
+          newRequestsList.innerHTML = '<p>Tidak ada permintaan konseling baru.</p>';
+        }
+      } catch (err) {
+        console.error("Gagal memuat permintaan konseling:", err);
+        newRequestsList.innerHTML = '<p>Gagal memuat permintaan konseling.</p>';
+      }
+    }
+
+    async function loadNotifications() {
+      const notificationsList = document.getElementById('notificationsList');
+      notificationsList.innerHTML = '<p>Memuat notifikasi...</p>';
+      try {
+        const res = await fetch(`http://localhost:5000/api/notifications?userId=${KONSELOR_ID}`);
+        const notifications = await res.json();
+        if (notifications.length > 0) {
+          notificationsList.innerHTML = notifications.map(n => `
+            <div class="notif-item">
+              <div class="notif-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="notif-title">${n.tipe === 'new_booking' ? 'Permintaan Sesi Baru' : 'Notifikasi'}</div>
+                <div class="notif-body">${n.pesan}</div>
+                <div class="notif-time">${new Date(n.timestamp).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'})}</div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          notificationsList.innerHTML = '<p>Tidak ada notifikasi terbaru.</p>';
+        }
+      } catch (err) {
+        console.error("Gagal memuat notifikasi:", err);
+        notificationsList.innerHTML = '<p>Gagal memuat notifikasi.</p>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadKonselorDashboard);
+  </script>
+</body>
+</html>

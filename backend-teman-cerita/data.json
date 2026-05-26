@@ -1,0 +1,83 @@
+{
+  "konselor": [
+    {
+      "id": "k1",
+      "nama": "Irviean Yoga",
+      "spesialisasi": "Stres Akademik",
+      "email": "konselor@gmail.com",
+      "password": "password123",
+      "rating": 4.9,
+      "role": "Konselor Senior",
+      "pengalaman": "3 Thn",
+      "tags": [
+        "stres",
+        "kecemasan"
+      ],
+      "status": "online",
+      "foto": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80"
+    }
+  ],
+  "mahasiswa": [
+    {
+      "id": "m1",
+      "nama": "User Teman Cerita",
+      "email": "user@gmail.com",
+      "nim": "2201001",
+      "prodi": "Desain Grafis"
+    },
+    {
+      "id": "m1779121687788",
+      "nama": "Irviean",
+      "nim": "2490343062",
+      "email": "nadjmakhayla.02@gmail.com",
+      "password": "170506",
+      "confirm_password": "170506",
+      "role": "mahasiswa"
+    }
+  ],
+  "bookings": [],
+  "riwayat": [
+    {
+      "id": "s1",
+      "konselorNama": "Siti Aminah",
+      "tanggal": "2024-05-10",
+      "status": "Selesai",
+      "rating": 5
+    }
+  ],
+  "artikel": [],
+  "jadwal_konselor": {
+    "k1": [
+      "Senin 09:00",
+      "Senin 13:00",
+      "Rabu 10:00"
+    ]
+  },
+  "notifications": [
+    {
+      "id": 1,
+      "pesan": "Jangan lupa sesi konseling besok jam 10 pagi!",
+      "tipe": "reminder"
+    }
+  ],
+  "statistik_performa": {
+    "labels": [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MEI",
+      "JUN"
+    ],
+    "values": [
+      55,
+      62,
+      70,
+      85,
+      90,
+      98
+    ],
+    "rating": "4.9",
+    "persen": 98
+  }
+}

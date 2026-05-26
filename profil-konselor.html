@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil Konselor – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .profil-k-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 28px;
+      padding: calc(var(--nav-h) + 40px) 0 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .profil-k-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .profil-k-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .profil-k-avatar-wrap { position: relative; display: inline-block; margin-bottom: 14px; }
+    .profil-k-avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-light); }
+    .verified-badge {
+      position: absolute; bottom: 6px; right: 6px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; border: 2px solid white;
+    }
+    .profil-k-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .profil-k-role { font-size: 13px; color: var(--text-light); margin-bottom: 14px; }
+    .profil-k-bio { font-size: 13px; color: var(--text-mid); line-height: 1.7; margin-bottom: 14px; text-align: left; }
+    .profil-k-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 20px; }
+    .profil-k-tag { padding: 5px 12px; background: var(--primary-light); color: var(--primary); border-radius: 50px; font-size: 12px; font-weight: 600; }
+    .profil-k-actions { display: flex; gap: 10px; }
+    .profil-k-actions .btn-primary, .profil-k-actions .btn-outline { flex: 1; justify-content: center; font-size: 13px; }
+
+    .stats-row { display: flex; justify-content: space-around; padding: 18px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .stat-col { text-align: center; }
+    .stat-col .num { font-size: 22px; font-weight: 800; color: var(--text); }
+    .stat-col .lbl { font-size: 11px; font-weight: 700; color: var(--text-light); letter-spacing: 0.5px; }
+
+    .edu-card {
+      background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px;
+    }
+    .edu-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .edu-header h4 { font-size: 14px; font-weight: 700; }
+    .edu-edit-btn { color: var(--primary); cursor: pointer; }
+    .edu-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .edu-item svg { color: var(--primary); margin-top: 2px; flex-shrink: 0; }
+    .edu-school { font-size: 14px; font-weight: 600; }
+    .edu-degree { font-size: 12px; color: var(--text-light); }
+    .add-btn {
+      width: 100%; padding: 10px; border: 1.5px dashed var(--border);
+      border-radius: var(--radius-sm); background: none; cursor: pointer;
+      font-size: 13px; color: var(--text-light); font-family: var(--font);
+      transition: all 0.2s;
+    }
+    .add-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .topik-card {
+      background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px;
+    }
+    .topik-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .topik-header h4 { font-size: 14px; font-weight: 700; }
+    .topik-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .topik-tag { padding: 6px 14px; border: 1.5px solid var(--border); border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-mid); }
+
+    /* RIGHT column */
+    .profil-k-main { display: flex; flex-direction: column; gap: 24px; }
+    .artikel-section { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; }
+    .artikel-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .artikel-header h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .artikel-header p { font-size: 13px; color: var(--text-light); }
+    .artikel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .artikel-k-card { border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
+    .artikel-k-img { height: 140px; position: relative; overflow: hidden; }
+    .artikel-k-img img { width: 100%; height: 100%; object-fit: cover; }
+    .artikel-k-tag { position: absolute; top: 10px; left: 10px; padding: 3px 10px; border-radius: 50px; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.9); color: var(--primary); }
+    .artikel-k-body { padding: 14px; }
+    .artikel-k-body h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+    .artikel-k-meta { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-light); }
+    .artikel-edit-btn { color: var(--primary); font-weight: 600; cursor: pointer; }
+
+    /* KOMENTAR */
+    .komentar-section { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; }
+    .komentar-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+    .komentar-header h3 { font-size: 18px; font-weight: 700; }
+    .komentar-header p { font-size: 13px; color: var(--text-light); }
+    .komentar-rating-box {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--bg); border-radius: var(--radius-sm);
+      padding: 14px 18px; border: 1px solid var(--border);
+    }
+    .komentar-big-rating { font-size: 32px; font-weight: 800; }
+    .komentar-stars { color: #F59E0B; font-size: 16px; }
+    .komentar-basis { font-size: 12px; color: var(--text-light); }
+    .komentar-list { margin-top: 20px; }
+    .komentar-item { padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .komentar-item:last-child { border-bottom: none; }
+    .komentar-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .komentar-reviewer { display: flex; gap: 10px; align-items: center; }
+    .komentar-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--primary); }
+    .komentar-name { font-size: 14px; font-weight: 700; }
+    .komentar-meta { font-size: 11px; color: var(--text-light); }
+    .komentar-stars-sm { color: #F59E0B; font-size: 13px; }
+    .komentar-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+    .lihat-semua-komentar { width: 100%; padding: 12px; margin-top: 16px; text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; color: var(--text-mid); cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+    .lihat-semua-komentar:hover { border-color: var(--primary); color: var(--primary); }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+     <ul class="nav-links">
+  <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+  <li><a href="jadwal-konselor.html" class="nav-link">Jadwal</a></li>
+  <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+  <li><a href="buat-artikel.html" class="nav-link">Artikel</a></li>
+</ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="profil-k-layout">
+      <!-- SIDEBAR -->
+      <div class="profil-k-sidebar">
+        <!-- Card Utama -->
+        <div class="profil-k-card">
+          <div class="profil-k-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=80" class="profil-k-avatar" alt="Dra. Siti Aminah" />
+            <div class="verified-badge">✓</div>
+          </div>
+          <div class="profil-k-name">Dra. Siti Aminah</div>
+          <div class="profil-k-role">Konselor Senior Akademik</div>
+          <p class="profil-k-bio">Berdedikasi dalam membantu mahasiswa mencapai potensi maksimal melalui pendekatan psikologi positif dan manajemen stres yang efektif.</p>
+          <div class="profil-k-tags">
+            <span class="profil-k-tag">Anxiety</span>
+            <span class="profil-k-tag">Academic Stress</span>
+          </div>
+          <div class="profil-k-actions">
+            <button class="btn-primary" onclick="openEditKonselor()">✏️ Edit Profil</button>
+            <button class="btn-outline" style="color:#EF4444;border-color:#EF4444;" onclick="handleLogoutKonselor()">↪ Logout</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-col"><div class="num">128</div><div class="lbl">SESI</div></div>
+          <div class="stat-col"><div class="num">4.9</div><div class="lbl">RATING</div></div>
+          <div class="stat-col"><div class="num">15</div><div class="lbl">ARTIKEL</div></div>
+        </div>
+
+        <!-- Riwayat Pendidikan -->
+        <div class="edu-card">
+          <div class="edu-header">
+            <h4>Riwayat Pendidikan</h4>
+            <div class="edu-edit-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+          </div>
+          <div class="edu-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <div>
+              <div class="edu-school">S2 Psikologi Klinis</div>
+              <div class="edu-degree">Universitas Indonesia</div>
+            </div>
+          </div>
+          <div class="edu-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <div>
+              <div class="edu-school">S1 Psikologi Pendidikan</div>
+              <div class="edu-degree">Universitas Gadjah Mada</div>
+            </div>
+          </div>
+          <button class="add-btn" onclick="showToast('Fitur tambah pendidikan akan diintegrasikan backend ✅')">+ Tambah Pendidikan</button>
+        </div>
+
+        <!-- Topik Keahlian -->
+        <div class="topik-card">
+          <div class="topik-header">
+            <h4>Topik Keahlian</h4>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" style="cursor:pointer;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <div class="topik-tags">
+            <span class="topik-tag">Kecemasan Akademik</span>
+            <span class="topik-tag">Manajemen Stres</span>
+            <span class="topik-tag">Pengembangan Diri</span>
+            <span class="topik-tag">Career Planning</span>
+            <span class="topik-tag">Time Management</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN RIGHT -->
+      <div class="profil-k-main">
+
+        <!-- Artikel -->
+        <div class="artikel-section">
+          <div class="artikel-header">
+            <div>
+              <h3>Artikel yang Dibagikan</h3>
+              <p>Edukasi kesehatan mental untuk komunitas mahasiswa.</p>
+            </div>
+            <a href="buat-artikel.html" class="btn-primary" style="font-size:13px;padding:10px 18px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah Artikel
+            </a>
+          </div>
+          <div class="artikel-grid" id="konselorArticlesGrid">
+            <!-- Articles will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Komentar & Rating -->
+        <div class="komentar-section">
+          <div class="komentar-header">
+            <div>
+              <h3>Komentar &amp; Rating Mahasiswa</h3>
+              <p>Ulasan jujur dari mahasiswa yang telah berkonsultasi.</p>
+            </div>
+            <div class="komentar-rating-box">
+              <div>
+                <div class="komentar-big-rating">4.9</div>
+                <div class="komentar-stars">★★★★★</div>
+              </div>
+              <div>
+                <div style="font-size:13px;font-weight:600;">Berdasarkan</div>
+                <div style="font-size:13px;font-weight:800;">128 Sesi</div>
+              </div>
+            </div>
+          </div>
+          <div class="komentar-list">
+            <div class="komentar-item">
+              <div class="komentar-top">
+                <div class="komentar-reviewer">
+                  <div class="komentar-avatar">AM</div>
+                  <div>
+                    <div class="komentar-name">Andi Mahendra</div>
+                    <div class="komentar-meta">2 hari yang lalu · Sesi Akademik</div>
+                  </div>
+                </div>
+                <div class="komentar-stars-sm">★★★★★</div>
+              </div>
+              <p class="komentar-text">Ibu Siti sangat sabar mendengarkan keluhan saya tentang skripsi. Masukannya sangat praktis dan membuat saya lebih tenang menghadapi deadline. Terima kasih banyak Bu!</p>
+            </div>
+            <div class="komentar-item">
+              <div class="komentar-top">
+                <div class="komentar-reviewer">
+                  <div class="komentar-avatar">SR</div>
+                  <div>
+                    <div class="komentar-name">Siska Rahayu</div>
+                    <div class="komentar-meta">1 minggu yang lalu · Manajemen Stres</div>
+                  </div>
+                </div>
+                <div class="komentar-stars-sm">★★★★☆</div>
+              </div>
+              <p class="komentar-text">Penjelasan tentang teknik mindfulness sangat membantu. Sekarang saya punya cara untuk menenangkan diri saat merasa cemas di kampus. Sangat direkomendasikan.</p>
+            </div>
+
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang-konselor.html">Tentang Kami</a></li>
+            <li><a href="kontak-konselor.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="main.js"></script>
+
+  <!-- Modal Edit Profil Konselor -->
+  <div id="editKonselorModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:20px;padding:32px;max-width:480px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+      <h3 style="font-size:20px;font-weight:800;margin-bottom:20px;">✏️ Edit Profil Konselor</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:700;color:var(--text-mid);">Nama Lengkap</label>
+          <input type="text" style="padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:14px;outline:none;background:var(--bg);" value="Dra. Siti Aminah" />
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:700;color:var(--text-mid);">Spesialisasi</label>
+          <input type="text" style="padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:14px;outline:none;background:var(--bg);" value="Konselor Senior Akademik" />
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-mid);">Bio Singkat</label>
+        <textarea rows="3" style="padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:14px;outline:none;background:var(--bg);resize:none;">Berdedikasi dalam membantu mahasiswa mencapai potensi maksimal melalui pendekatan psikologi positif.</textarea>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
+        <label style="font-size:12px;font-weight:700;color:var(--text-mid);">Email</label>
+        <input type="email" style="padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:14px;outline:none;background:var(--bg);" value="siti.aminah@polimedia.ac.id" />
+      </div>
+      <div style="display:flex;gap:12px;">
+        <button class="btn-outline" style="flex:1;justify-content:center;" onclick="closeEditKonselor()">Batal</button>
+        <button class="btn-primary" style="flex:1;justify-content:center;" onclick="saveKonselor()">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal Konselor -->
+  <div id="logoutKonselorModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:20px;padding:32px;max-width:360px;width:90%;text-align:center;">
+      <div style="font-size:40px;margin-bottom:12px;">👋</div>
+      <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;">Yakin ingin keluar?</h3>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:24px;">Anda akan keluar dari akun konselor.</p>
+      <div style="display:flex;gap:12px;">
+        <button class="btn-outline" style="flex:1;justify-content:center;" onclick="document.getElementById('logoutKonselorModal').style.display='none'">Batal</button>
+        <button class="btn-primary" style="flex:1;justify-content:center;background:#EF4444;" onclick="window.location.href='index.html'">Ya, Keluar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastK" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+  <script>
+    function openEditKonselor() { document.getElementById('editKonselorModal').style.display='flex'; }
+    function closeEditKonselor() { document.getElementById('editKonselorModal').style.display='none'; }
+    function saveKonselor() { closeEditKonselor(); showToast('Profil berhasil diperbarui! ✅'); }
+    function handleLogoutKonselor() { document.getElementById('logoutKonselorModal').style.display='flex'; }
+    function showToast(msg) {
+      const t = document.getElementById('toastK');
+      t.textContent = msg; t.style.display='block';
+      setTimeout(()=> t.style.display='none', 3000);
+    }
+    [document.getElementById('editKonselorModal'), document.getElementById('logoutKonselorModal')].forEach(m => {
+      if(m) m.addEventListener('click', e => { if(e.target===m) m.style.display='none'; });
+    });
+  </script>
+</body>
+</html>

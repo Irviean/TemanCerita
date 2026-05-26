@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semua Ulasan & Rating – TemanCerita</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ulasan-page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 36px) 24px 80px;
+    }
+
+    /* breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .breadcrumb a { color: var(--text-light); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--primary); }
+    .breadcrumb span { color: var(--primary); }
+
+    .ulasan-title { font-family: var(--font-serif); font-size: clamp(28px,4vw,40px); font-weight: 700; margin-bottom: 6px; }
+    .ulasan-sub { font-size: 14px; color: var(--text-light); margin-bottom: 32px; }
+
+    /* ── Ringkasan rating ── */
+    .rating-summary-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    /* angka besar */
+    .rating-big-num { font-size: 56px; font-weight: 800; color: var(--text); line-height: 1; }
+    .rating-stars-big { color: #F59E0B; font-size: 22px; margin: 6px 0 4px; }
+    .rating-based { font-size: 13px; color: var(--text-light); white-space: nowrap; }
+
+    /* bar chart rating */
+    .rating-bars-wrap { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .rbar-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .rbar-num { width: 12px; text-align: right; color: var(--text-light); font-weight: 600; }
+    .rbar-track { flex: 1; height: 8px; background: var(--bg); border-radius: 50px; overflow: hidden; border: 1px solid var(--border); }
+    .rbar-fill { height: 100%; background: var(--primary); border-radius: 50px; transition: width 0.8s ease; }
+    .rbar-pct { width: 32px; text-align: right; color: var(--text-light); font-size: 12px; font-weight: 600; }
+
+    /* donut / rekomendasi */
+    .rekomendasi-wrap { text-align: center; flex-shrink: 0; }
+    .donut-ring {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0% 98%, var(--border) 98% 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px;
+      position: relative;
+    }
+    .donut-ring::after {
+      content: '';
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: white;
+      position: absolute;
+    }
+    .donut-num {
+      position: relative; z-index: 1;
+      font-size: 18px; font-weight: 800; color: var(--primary);
+    }
+    .rekomendasi-label { font-size: 12px; color: var(--text-light); line-height: 1.5; max-width: 100px; }
+
+    /* ── Layout bawah: form kiri + daftar ulasan kanan ── */
+    .ulasan-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    /* ── Form Berikan Ulasan ── */
+    .form-ulasan-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      position: sticky;
+      top: calc(var(--nav-h) + 16px);
+    }
+    .form-ulasan-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 18px; }
+    .form-label-sm { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--text-light); margin-bottom: 8px; }
+
+    /* star selector */
+    .star-selector { display: flex; gap: 6px; margin-bottom: 18px; }
+    .star-btn {
+      font-size: 24px; background: none; border: none;
+      cursor: pointer; color: var(--border);
+      transition: color 0.15s, transform 0.1s;
+      padding: 0; line-height: 1;
+    }
+    .star-btn:hover, .star-btn.aktif { color: #F59E0B; transform: scale(1.1); }
+
+    .form-textarea {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 13px;
+      resize: none; outline: none;
+      background: var(--bg); color: var(--text);
+      transition: border-color 0.2s;
+      margin-bottom: 14px;
+    }
+    .form-textarea:focus { border-color: var(--primary); background: white; }
+    .form-textarea::placeholder { color: var(--text-light); }
+
+    .anon-check {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text-mid);
+      margin-bottom: 16px; cursor: pointer;
+    }
+    .anon-check input { accent-color: var(--primary); cursor: pointer; }
+
+    .kirim-btn {
+      width: 100%; padding: 13px;
+      background: var(--primary); color: white;
+      border: none; border-radius: 50px;
+      font-family: var(--font); font-size: 14px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; gap: 8px; transition: background 0.2s;
+    }
+    .kirim-btn:hover { background: var(--primary-dark); }
+
+    /* ── Daftar Ulasan ── */
+    .ulasan-header-row {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 20px;
+    }
+    .ulasan-header-row h3 { font-size: 16px; font-weight: 700; }
+    .sort-select {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: var(--text); background: white; outline: none; cursor: pointer;
+    }
+
+    .ulasan-list { display: flex; flex-direction: column; gap: 0; }
+
+    .ulasan-item {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 22px 24px;
+      margin-bottom: 14px;
+      transition: box-shadow 0.2s;
+    }
+    .ulasan-item:hover { box-shadow: var(--shadow); }
+
+    .ulasan-item-top {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: 12px;
+    }
+    .reviewer-row { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .reviewer-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+    .reviewer-date { font-size: 12px; color: var(--text-light); }
+    .ulasan-stars { color: #F59E0B; font-size: 16px; letter-spacing: 1px; }
+
+    .ulasan-teks { font-size: 14px; color: var(--text-mid); line-height: 1.8; margin-bottom: 16px; }
+
+    .helpful-row {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; color: var(--text-light);
+    }
+    .helpful-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      border: 1.5px solid var(--border); border-radius: 50px;
+      background: white; font-family: var(--font);
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .helpful-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+    .helpful-btn.liked { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* tombol load more */
+    .load-more-btn {
+      display: block; width: fit-content;
+      margin: 24px auto 0;
+      padding: 13px 32px;
+      border: 1.5px solid var(--border);
+      border-radius: 50px; background: white;
+      font-family: var(--font); font-size: 14px;
+      font-weight: 600; color: var(--text-mid);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .load-more-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* toast */
+    #toast {
+      display: none; position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary); color: white;
+      padding: 14px 24px; border-radius: 50px;
+      font-size: 14px; font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2); z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="konselor.html" class="nav-link active">Konselor</a></li>
+        <li><a href="tentang.html" class="nav-link">Tentang Kami</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">user<br><small>user@gmail.com</small></span>
+        <a href="profil-user.html" class="nav-avatar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="ulasan-page page-content">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a href="konselor.html">Counselors</a>
+      <span>/</span>
+      <a href="detail-konselor.html">Dra. Siti Aminah</a>
+      <span>/</span>
+      <span>Reviews</span>
+    </div>
+
+    <h1 class="ulasan-title">Semua Ulasan &amp; Rating</h1>
+    <p class="ulasan-sub">Melihat dampak nyata bimbingan dan dukungan akademis.</p>
+
+    <!-- ── Ringkasan Rating ── -->
+    <div class="rating-summary-card">
+      <!-- Angka besar -->
+      <div>
+        <div class="rating-big-num">4.9</div>
+        <div class="rating-stars-big">★★★★★</div>
+        <div class="rating-based">Berdasarkan 240 ulasan</div>
+      </div>
+
+      <!-- Bar per bintang -->
+      <div class="rating-bars-wrap">
+        <div class="rbar-row">
+          <span class="rbar-num">5</span>
+          <div class="rbar-track"><div class="rbar-fill" style="width:90%"></div></div>
+          <span class="rbar-pct">90%</span>
+        </div>
+        <div class="rbar-row">
+          <span class="rbar-num">4</span>
+          <div class="rbar-track"><div class="rbar-fill" style="width:8%"></div></div>
+          <span class="rbar-pct">8%</span>
+        </div>
+        <div class="rbar-row">
+          <span class="rbar-num">3</span>
+          <div class="rbar-track"><div class="rbar-fill" style="width:1%"></div></div>
+          <span class="rbar-pct">1%</span>
+        </div>
+        <div class="rbar-row">
+          <span class="rbar-num">2</span>
+          <div class="rbar-track"><div class="rbar-fill" style="width:1%"></div></div>
+          <span class="rbar-pct">1%</span>
+        </div>
+        <div class="rbar-row">
+          <span class="rbar-num">1</span>
+          <div class="rbar-track"><div class="rbar-fill" style="width:0%"></div></div>
+          <span class="rbar-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- Donut rekomendasi -->
+      <div class="rekomendasi-wrap">
+        <div class="donut-ring">
+          <span class="donut-num">98%</span>
+        </div>
+        <div class="rekomendasi-label">Mahasiswa merekomendasikan bimbingan ini</div>
+      </div>
+    </div>
+
+    <!-- ── Body: Form + Daftar ── -->
+    <div class="ulasan-body">
+
+      <!-- Kiri: Form -->
+      <div class="form-ulasan-card">
+        <h3>Berikan Ulasan Anda</h3>
+
+        <div class="form-label-sm">RATING KESELURUHAN (1-5)</div>
+        <div class="star-selector" id="starSelector">
+          <button class="star-btn" data-val="1" onclick="setRating(1)">☆</button>
+          <button class="star-btn" data-val="2" onclick="setRating(2)">☆</button>
+          <button class="star-btn" data-val="3" onclick="setRating(3)">☆</button>
+          <button class="star-btn" data-val="4" onclick="setRating(4)">☆</button>
+          <button class="star-btn" data-val="5" onclick="setRating(5)">☆</button>
+        </div>
+
+        <div class="form-label-sm">KOMENTAR PENGALAMAN</div>
+        <textarea
+          class="form-textarea"
+          id="komentarInput"
+          rows="5"
+          placeholder="Ceritakan bagaimana sesi konseling membantu Anda..."
+        ></textarea>
+
+        <label class="anon-check">
+          <input type="checkbox" id="anonCheck" checked />
+          Post as Anonymous
+        </label>
+
+        <button class="kirim-btn" onclick="kirimUlasan()">
+          Kirim Ulasan
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Kanan: Daftar Ulasan -->
+      <div>
+        <div class="ulasan-header-row">
+          <h3>Urutkan Berdasarkan</h3>
+          <select class="sort-select" id="sortSelect" onchange="sortUlasan()">
+            <option value="terbaru">Terbaru</option>
+            <option value="tertinggi">Rating Tertinggi</option>
+            <option value="terendah">Rating Terendah</option>
+            <option value="membantu">Paling Membantu</option>
+          </select>
+        </div>
+
+        <div class="ulasan-list" id="ulasanList"></div>
+
+        <button class="load-more-btn" onclick="loadMore()">Lihat Lebih Banyak Ulasan</button>
+      </div>
+
+    </div><!-- /ulasan-body -->
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang.html">Tentang Kami</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast"></div>
+
+  <script src="main.js"></script>
+  <script>
+    // ── Star Rating ──────────────────────────────────────────
+    const KONSELOR_ID = new URLSearchParams(window.location.search).get('konselorId') || 'k2'; // Default ke k2 (Siti Aminah)
+    const MAHASISWA_ID = JSON.parse(localStorage.getItem('user'))?.id || 'm1';
+    let allReviews = [];
+
+    let selectedRating = 0;
+    function setRating(val) {
+      selectedRating = val;
+      document.querySelectorAll('.star-btn').forEach((btn, i) => {
+        btn.classList.toggle('aktif', i < val);
+      });
+    }
+
+    // hover effect
+    document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+      btn.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.star-btn').forEach((b, i) => {
+          b.style.color = i <= idx ? '#F59E0B' : 'var(--border)';
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.star-btn').forEach((b, i) => {
+          b.style.color = i < selectedRating ? '#F59E0B' : 'var(--border)';
+        });
+      });
+    });
+
+    // ── Kirim Ulasan ────────────────────────────────────────
+    async function kirimUlasan() {
+      const komentar = document.getElementById('komentarInput').value.trim();
+      const isAnon   = document.getElementById('anonCheck').checked;
+
+      if (selectedRating === 0) { showToast('⚠️ Pilih rating terlebih dahulu'); return; }
+      if (!komentar)            { showToast('⚠️ Tuliskan komentar Anda'); return; }
+
+      try {
+        // Untuk prototype, kita asumsikan bookingId terakhir yang selesai
+        const resBookings = await fetch(`http://localhost:5000/api/riwayat?userId=${MAHASISWA_ID}&status=Selesai`);
+        const completedBookings = await resBookings.json();
+        const lastBooking = completedBookings[completedBookings.length - 1];
+
+        if (!lastBooking) {
+            showToast('⚠️ Anda belum menyelesaikan sesi untuk memberikan ulasan.');
+            return;
+        }
+
+        const reviewData = {
+            bookingId: lastBooking.bookingId,
+            konselorId: KONSELOR_ID,
+            mahasiswaId: MAHASISWA_ID,
+            rating: selectedRating,
+            reviewText: komentar,
+            isAnonymous: isAnon
+        };
+
+        const res = await fetch('http://localhost:5000/api/review', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(reviewData)
+        });
+
+        if (res.ok) {
+            showToast('✅ Ulasan berhasil dikirim!');
+            document.getElementById('komentarInput').value = '';
+            document.getElementById('anonCheck').checked = true; // Default anonim
+            setRating(0);
+            loadReviews(); // Refresh daftar ulasan
+        } else {
+            const err = await res.json();
+            showToast(`Gagal mengirim ulasan: ${err.error} ❌`);
+        }
+      } catch (err) {
+        console.error("Error mengirim ulasan:", err);
+        showToast('Koneksi server gagal saat mengirim ulasan.');
+      }
+    }
+
+    // ── Toggle Like ─────────────────────────────────────────
+    function toggleLike(btn, count) {
+      const liked = btn.classList.toggle('liked');
+      const n = liked ? count + 1 : count;
+      btn.innerHTML = `
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+        Membantu (${n})`;
+    }
+
+    // ── Load Reviews ────────────────────────────────────────
+    async function loadReviews() {
+        const ulasanListContainer = document.getElementById('ulasanList');
+        ulasanListContainer.innerHTML = '<p>Memuat ulasan...</p>';
+        try {
+            const res = await fetch(`http://localhost:5000/api/riwayat?userId=${KONSELOR_ID}&status=Selesai`);
+            allReviews = await res.json();
+            sortUlasan(); // Tampilkan dan urutkan
+        } catch (err) {
+            console.error("Gagal memuat ulasan:", err);
+            ulasanListContainer.innerHTML = '<p>Gagal memuat ulasan.</p>';
+        }
+    }
+
+    function renderReviews(reviewsToRender) {
+        const ulasanListContainer = document.getElementById('ulasanList');
+        if (reviewsToRender.length === 0) {
+            ulasanListContainer.innerHTML = '<p>Belum ada ulasan untuk konselor ini.</p>';
+            return;
+        }
+        ulasanListContainer.innerHTML = reviewsToRender.map(r => {
+            const reviewerName = r.isAnonymous ? 'Mahasiswa Anonim' : (r.mahasiswa?.nama || 'Anonim');
+            const avatarBg = r.isAnonymous ? '#E5E7EB' : '#D1FAE5';
+            const avatarColor = r.isAnonymous ? '#6B7280' : '#065F46';
+            const avatarContent = r.isAnonymous ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>' : (r.mahasiswa?.nama ? r.mahasiswa.nama.charAt(0).toUpperCase() : 'A');
+            const stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+            const reviewDate = new Date(r.tanggal).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' });
+
+            return `
+                <div class="ulasan-item" data-rating="${r.rating}" data-tanggal="${r.tanggal}" data-helpful="0">
+                    <div class="ulasan-item-top">
+                        <div class="reviewer-row">
+                            <div class="reviewer-avatar" style="background:${avatarBg};color:${avatarColor};">${avatarContent}</div>
+                            <div>
+                                <div class="reviewer-name">${reviewerName}</div>
+                                <div class="reviewer-date">${reviewDate}</div>
+                            </div>
+                        </div>
+                        <div class="ulasan-stars">${stars}</div>
+                    </div>
+                    <p class="ulasan-teks">${r.reviewText || 'Tidak ada komentar.'}</p>
+                    <div class="helpful-row"><span>Apakah ulasan ini membantu?</span><button class="helpful-btn" onclick="toggleLike(this,0)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg> Membantu (0)</button></div>
+                </div>`;
+        }).join('');
+    }
+
+    // ── Sort ─────────────────────────────────────────────────
+    function sortUlasan() {
+      const val  = document.getElementById('sortSelect').value;
+      const list = document.getElementById('ulasanList');
+      const items = [...list.querySelectorAll('.ulasan-item')];
+      
+      const sortedReviews = [...allReviews].sort((a, b) => {
+        if (val === 'terbaru')   return new Date(b.tanggal) - new Date(a.tanggal);
+        if (val === 'tertinggi') return b.rating - a.rating;
+        if (val === 'terendah')  return a.rating - b.rating;
+        // 'membantu' tidak diimplementasikan di backend, jadi abaikan atau gunakan dummy
+        return 0;
+      });
+      renderReviews(sortedReviews);
+    }
+
+
+    // ── Load More ───────────────────────────────────────────
+    function loadMore() {
+      showToast('📋 Memuat ulasan lainnya...');
+      /* BACKEND: fetch('/api/ulasan/konselor/siti-aminah?page=2')
+         .then(r => r.json()).then(data => renderUlasan(data)); */
+    }
+
+    // ── Toast ────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    // scroll navbar
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    document.addEventListener('DOMContentLoaded', loadReviews);
+  </script>
+</body>
+</html>

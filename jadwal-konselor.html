@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jadwal – TemanCerita Konselor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="dashboard-konselor.html" class="nav-logo"><span class="logo-icon">🌿</span><span>TemanCerita</span></a>
+      <ul class="nav-links">
+          <li><a href="dashboard-konselor.html" class="nav-link">Beranda</a></li>
+          <li><a href="jadwal-konselor.html" class="nav-link active">Jadwal</a></li>
+          <li><a href="riwayat-konselor.html" class="nav-link">Riwayat</a></li>
+          <li><a href="buat-artikel.html" class="nav-link">Artikel</a></li>
+      </ul>
+      <div class="nav-user">
+        <span class="nav-username">Konselor<br><small>Konselor@gmail.com</small></span>
+        <a href="profil-konselor.html" class="nav-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div class="jadwal-layout">
+      <!-- LEFT -->
+      <div>
+        <div class="jadwal-page-title">Jadwal Saya</div>
+        <div class="jadwal-page-sub">Kelola agenda konseling harian Anda, atur ketersediaan waktu, dan tentukan batasan kapasitas sesi untuk menjaga kualitas layanan.</div>
+
+        <!-- AVAILABILITY -->
+        <div class="availability-card">
+          <div class="avail-header">
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Atur Ketersediaan
+            </h3>
+            <div class="avail-tz">Zona Waktu: WIB (Jakarta)</div>
+          </div>
+
+          <style>
+            .time-input {
+              padding: 9px 12px;
+              border: 1.5px solid var(--border);
+              border-radius: var(--radius-sm);
+              font-family: var(--font);
+              font-size: 13px;
+              font-weight: 600;
+              color: var(--text);
+              background: var(--bg);
+              outline: none;
+              cursor: pointer;
+              transition: border-color 0.2s, opacity 0.2s;
+              width: 110px;
+            }
+            .time-input:focus { border-color: var(--primary); background: white; }
+            .time-input:disabled { opacity: 0.35; cursor: not-allowed; background: var(--bg); }
+            .day-toggle {
+              width: 44px; height: 24px;
+              background: var(--primary);
+              border-radius: 50px;
+              position: relative;
+              cursor: pointer;
+              border: none;
+              transition: background 0.25s;
+              flex-shrink: 0;
+            }
+            .day-toggle::after {
+              content: '';
+              position: absolute;
+              top: 3px; right: 3px;
+              width: 18px; height: 18px;
+              border-radius: 50%;
+              background: white;
+              transition: right 0.25s;
+            }
+            .day-toggle.off { background: #D1D5DB; }
+            .day-toggle.off::after { right: calc(100% - 21px); }
+            .avail-status-text { font-size: 13px; font-weight: 600; min-width: 64px; }
+            .avail-status-text.nonaktif { color: var(--text-light); }
+          </style>
+          <!-- Senin -->
+          <div class="avail-row" id="row-senin">
+            <div class="avail-day">Senin</div>
+            <input type="time" class="time-input" id="start-senin" value="09:00" />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-senin" value="16:00" />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle" id="toggle-senin" onclick="toggleDay('senin')"></button>
+              <span class="avail-status-text" id="label-senin">Aktif</span>
+            </div>
+          </div>
+          <!-- Selasa -->
+          <div class="avail-row" id="row-selasa">
+            <div class="avail-day">Selasa</div>
+            <input type="time" class="time-input" id="start-selasa" value="09:00" />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-selasa" value="16:00" />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle" id="toggle-selasa" onclick="toggleDay('selasa')"></button>
+              <span class="avail-status-text" id="label-selasa">Aktif</span>
+            </div>
+          </div>
+          <!-- Rabu -->
+          <div class="avail-row" id="row-rabu">
+            <div class="avail-day">Rabu</div>
+            <input type="time" class="time-input" id="start-rabu" value="10:00" />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-rabu" value="15:00" />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle" id="toggle-rabu" onclick="toggleDay('rabu')"></button>
+              <span class="avail-status-text" id="label-rabu">Aktif</span>
+            </div>
+          </div>
+          <!-- Kamis -->
+          <div class="avail-row" id="row-kamis">
+            <div class="avail-day">Kamis</div>
+            <input type="time" class="time-input" id="start-kamis" value="09:00" />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-kamis" value="16:00" />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle" id="toggle-kamis" onclick="toggleDay('kamis')"></button>
+              <span class="avail-status-text" id="label-kamis">Aktif</span>
+            </div>
+          </div>
+          <!-- Jumat -->
+          <div class="avail-row" id="row-jumat">
+            <div class="avail-day">Jumat</div>
+            <input type="time" class="time-input" id="start-jumat" value="08:00" />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-jumat" value="11:00" />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle" id="toggle-jumat" onclick="toggleDay('jumat')"></button>
+              <span class="avail-status-text" id="label-jumat">Aktif</span>
+            </div>
+          </div>
+          <!-- Sabtu -->
+          <div class="avail-row" id="row-sabtu">
+            <div class="avail-day">Sabtu</div>
+            <input type="time" class="time-input" id="start-sabtu" value="09:00" disabled />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-sabtu" value="12:00" disabled />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle off" id="toggle-sabtu" onclick="toggleDay('sabtu')"></button>
+              <span class="avail-status-text nonaktif" id="label-sabtu">Non Aktif</span>
+            </div>
+          </div>
+          <!-- Minggu -->
+          <div class="avail-row" id="row-minggu">
+            <div class="avail-day">Minggu</div>
+            <input type="time" class="time-input" id="start-minggu" value="09:00" disabled />
+            <span style="font-size:13px;color:var(--text-light);">sampai</span>
+            <input type="time" class="time-input" id="end-minggu" value="12:00" disabled />
+            <div class="avail-status" style="gap:10px;">
+              <button class="day-toggle off" id="toggle-minggu" onclick="toggleDay('minggu')"></button>
+              <span class="avail-status-text nonaktif" id="label-minggu">Non Aktif</span>
+            </div>
+          </div>
+
+          <div style="text-align:center;margin-top:20px;">
+            <button class="btn-primary" onclick="simpanJadwal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan Perubahan
+            </button>
+          </div>
+        </div>
+
+        <!-- PERMINTAAN BARU -->
+        <div class="permintaan-baru-section">
+          <h3><span class="left-bar"></span> &nbsp;Permintaan Baru</h3>
+         <div class="permintaan-baru-grid">
+  <a href="detail-mahasiswa-booking.html" class="permintaan-baru-card">
+    <span class="baru-tag">BARU</span>
+    <div class="permintaan-baru-name">Budi Dermawan</div>
+    <div class="permintaan-baru-topik">Topik: Kecemasan Akademik</div>
+    <div class="permintaan-baru-time">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Besok, 10 Okt • 10:00
+    </div>
+    <div class="permintaan-baru-actions">
+      <button class="btn-primary terima-btn" onclick="event.preventDefault(); event.stopPropagation(); showToast('Sesi diterima!')">Terima</button>
+      <button class="btn-outline tolak-btn" onclick="event.preventDefault(); event.stopPropagation(); showToast('Sesi ditolak.')">Tolak</button>
+    </div>
+  </a>
+
+  <a href="detail-mahasiswa-booking.html" class="permintaan-baru-card">
+    <div class="permintaan-baru-name">Siska Amelia</div>
+    <div class="permintaan-baru-topik">Topik: Manajemen Waktu</div>
+    <div class="permintaan-baru-time">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      12 Okt • 15:30
+    </div>
+    <div class="permintaan-baru-actions">
+      <button class="btn-primary terima-btn" onclick="event.preventDefault(); event.stopPropagation(); showToast('Sesi diterima!')">Terima</button>
+      <button class="btn-outline tolak-btn" onclick="event.preventDefault(); event.stopPropagation(); showToast('Sesi ditolak.')">Tolak</button>
+    </div>
+  </a>
+</div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <!-- Jadwal Aktif -->
+        <div class="jadwal-aktif-card">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Jadwal Aktif
+          </h3>
+          <div class="jadwal-aktif-list">
+            <div class="jadwal-aktif-item">
+              <div>
+                <div class="jadwal-aktif-name">Budi Santoso</div>
+                <div class="jadwal-aktif-prodi">D3 Desain Grafis</div>
+                <div class="jadwal-aktif-time">⏰ 09:00 – 10:00</div>
+              </div>
+              <span class="jadwal-status-tag tag-mendatang">MENDATANG</span>
+            </div>
+            <div class="jadwal-aktif-item berlangsung">
+              <div>
+                <div class="jadwal-aktif-name">Siti Aminah</div>
+                <div class="jadwal-aktif-prodi">D4 Animasi</div>
+                <div class="jadwal-aktif-time">⏰ 11:00 – 12:00</div>
+              </div>
+              <span class="jadwal-status-tag tag-berlangsung">SEDANG BERLANGSUNG</span>
+            </div>
+            <div class="jadwal-aktif-item">
+              <div>
+                <div class="jadwal-aktif-name">Andi Wijaya</div>
+                <div class="jadwal-aktif-prodi">D3 Fotografi</div>
+                <div class="jadwal-aktif-time">⏰ 14:00 – 15:00</div>
+              </div>
+              <span class="jadwal-status-tag tag-mendatang">MENDATANG</span>
+            </div>
+            <div style="background:var(--bg);border-radius:var(--radius-sm);padding:20px;text-align:center;color:var(--text-light);font-size:13px;border:1px dashed var(--border);">
+              <div style="font-size:24px;margin-bottom:8px;">📅</div>
+              Belum ada sesi lainnya hari ini.
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="dash-card" style="margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:13px;color:var(--text-mid);">Total Sesi Hari Ini</span>
+            <span style="font-size:13px;font-weight:700;">3 / 5</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar"></div></div>
+        </div>
+
+        <!-- Batas sesi -->
+        <div class="batas-sesi-card">
+          <div class="batas-sesi-row">
+            <span class="label">Batas Sesi per Hari:</span>
+            <div class="batas-input-wrap">
+              <input type="number" class="batas-input" value="5" min="1" max="10" id="batasInput" />
+              <span class="ubah-link" onclick="ubahBatas()">Ubah</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">RICE Asesmen</div>
+          <p>Sistem Manajemen Layanan Konseling Sebaya untuk mahasiswa Politeknik Negeri Media Kreatif. Mengedepankan kerahasiaan, kenyamanan, dan kesehatan mental.</p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></a>
+            <a href="#" class="social-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Tautan Cepat</div>
+          <ul>
+            <li><a href="tentang-konselor.html">Tentang Kami</a></li>
+            <li><a href="kontak-konselor.html">Kontak</a></li>
+            <li><a href="kebijakan-privasi.html">Kebijakan Privasi</a></li>
+            <li><a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">Hubungi Kami</div>
+          <ul>
+            <li>📍 Politeknik Negeri Media Kreatif</li>
+            <li>Jakarta Selatan, Indonesia</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <div class="footer-heading">© 2026 RICE Asesmen</div>
+          <p style="font-size:12px;color:var(--text-light);">Politeknik Negeri Media Kreatif.<br>All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary);color:white;padding:14px 24px;border-radius:50px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;"></div>
+
+  <script src="main.js"></script>
+  <script>
+    function toggleDay(day) {
+      const toggle = document.getElementById('toggle-' + day);
+      const label = document.getElementById('label-' + day);
+      const startInput = document.getElementById('start-' + day);
+      const endInput = document.getElementById('end-' + day);
+      const isOff = toggle.classList.toggle('off');
+      if (isOff) {
+        label.textContent = 'Non Aktif';
+        label.classList.add('nonaktif');
+        startInput.disabled = true;
+        endInput.disabled = true;
+      } else {
+        label.textContent = 'Aktif';
+        label.classList.remove('nonaktif');
+        startInput.disabled = false;
+        endInput.disabled = false;
+      }
+    }
+
+    // Asumsi konselorId didapatkan dari sesi login
+    const KONSELOR_ID = 'k1';
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    async function simpanJadwal() {
+      const days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+      const jadwalUpdate = days.map(d => {
+        return {
+          hari: d.charAt(0).toUpperCase() + d.slice(1),
+          jamMulai: document.getElementById(`start-${d}`).value,
+          jamSelesai: document.getElementById(`end-${d}`).value,
+          aktif: !document.getElementById(`toggle-${d}`).classList.contains('off'),
+          mode: ["online", "offline"]
+        };
+      });
+
+      const res = await fetch('http://localhost:5000/api/jadwal', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          konselorId: KONSELOR_ID,
+          jadwalUpdate
+        })
+      });
+
+      if (res.ok) {
+        showToast('Perubahan jadwal berhasil disimpan! ✅');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 3000);
+    }
+
+    async function loadJadwalKonselor() {
+        try {
+            const res = await fetch(`http://localhost:5000/api/jadwal/${KONSELOR_ID}`);
+            const jadwal = await res.json();
+
+            const days = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+            days.forEach(d => {
+                const dayData = jadwal.find(j => j.hari.toLowerCase() === d);
+                const startInput = document.getElementById(`start-${d}`);
+                const endInput = document.getElementById(`end-${d}`);
+                const toggle = document.getElementById(`toggle-${d}`);
+                const label = document.getElementById(`label-${d}`);
+
+                if (dayData) {
+                    startInput.value = dayData.jamMulai;
+                    endInput.value = dayData.jamSelesai;
+                    if (!dayData.aktif) {
+                        toggle.classList.add('off');
+                        label.textContent = 'Non Aktif';
+                        label.classList.add('nonaktif');
+                        startInput.disabled = true;
+                        endInput.disabled = true;
+                    } else {
+                        toggle.classList.remove('off');
+                        label.textContent = 'Aktif';
+                        label.classList.remove('nonaktif');
+                        startInput.disabled = false;
+                        endInput.disabled = false;
+                    }
+                } else {
+                    // Default to inactive if no data
+                    toggle.classList.add('off');
+                    label.textContent = 'Non Aktif';
+                    label.classList.add('nonaktif');
+                    startInput.disabled = true;
+                    endInput.disabled = true;
+                }
+            });
+        } catch (err) {
+            console.error("Gagal memuat jadwal konselor:", err);
+            showToast('Gagal memuat jadwal. Pastikan backend berjalan.');
+        }
+    }
+
+    async function loadPermintaanBaru() {
+        const container = document.querySelector('.permintaan-baru-grid');
+        container.innerHTML = '<p>Memuat permintaan baru...</p>';
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?konselorId=${KONSELOR_ID}&status=Menunggu Persetujuan`);
+            const bookings = await res.json();
+            if (bookings.length > 0) {
+                container.innerHTML = bookings.map(b => `
+                    <a href="detail-mahasiswa-booking.html?bookingId=${b.id}" class="permintaan-baru-card">
+                        <span class="baru-tag">BARU</span>
+                        <div class="permintaan-baru-name">${b.mahasiswaNama || 'Mahasiswa Anonim'}</div>
+                        <div class="permintaan-baru-topik">Topik: ${b.praKonseling?.topik || 'Tidak disebutkan'}</div>
+                        <div class="permintaan-baru-time">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            ${b.tanggal} • ${b.jam}
+                        </div>
+                        <div class="permintaan-baru-actions">
+                            <button class="btn-primary terima-btn" onclick="event.preventDefault(); event.stopPropagation(); updateBookingStatus('${b.id}', 'Dikonfirmasi')">Terima</button>
+                            <button class="btn-outline tolak-btn" onclick="event.preventDefault(); event.stopPropagation(); updateBookingStatus('${b.id}', 'Ditolak')">Tolak</button>
+                        </div>
+                    </a>
+                `).join('');
+            } else {
+                container.innerHTML = '<p>Tidak ada permintaan booking baru.</p>';
+            }
+        } catch (err) {
+            console.error("Gagal memuat permintaan baru:", err);
+            container.innerHTML = '<p>Gagal memuat permintaan baru.</p>';
+        }
+    }
+
+    async function updateBookingStatus(bookingId, status) {
+        try {
+            const res = await fetch(`http://localhost:5000/api/booking/${bookingId}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            if (res.ok) {
+                showToast(`Booking ${bookingId} ${status.toLowerCase()}!`);
+                loadPermintaanBaru(); // Refresh list
+                loadJadwalAktif(); // Refresh active schedule
+            } else {
+                const err = await res.json();
+                showToast(`Gagal memperbarui status booking: ${err.error}`);
+            }
+        } catch (err) {
+            console.error("Error updating booking status:", err);
+            showToast('Koneksi server gagal saat memperbarui status booking.');
+        }
+    }
+
+    async function loadJadwalAktif() {
+        const container = document.querySelector('.jadwal-aktif-list');
+        container.innerHTML = '<p>Memuat jadwal aktif...</p>';
+        try {
+            const res = await fetch(`http://localhost:5000/api/bookings?konselorId=${KONSELOR_ID}&status=Dikonfirmasi&tanggal=${todayDate}`);
+            const bookings = await res.json();
+            if (bookings.length > 0) {
+                container.innerHTML = bookings.map(b => `
+                    <div class="jadwal-aktif-item ${b.status === 'Dikonfirmasi' ? 'berlangsung' : ''}">
+                        <div>
+                            <div class="jadwal-aktif-name">${b.mahasiswaNama || 'Mahasiswa Anonim'}</div>
+                            <div class="jadwal-aktif-prodi">${b.mahasiswaProdi || 'N/A'}</div>
+                            <div class="jadwal-aktif-time">⏰ ${b.jam}</div>
+                        </div>
+                        <span class="jadwal-status-tag ${b.status === 'Dikonfirmasi' ? 'tag-berlangsung' : 'tag-mendatang'}">${b.status === 'Dikonfirmasi' ? 'SEDANG BERLANGSUNG' : 'MENDATANG'}</span>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = `
+                    <div style="background:var(--bg);border-radius:var(--radius-sm);padding:20px;text-align:center;color:var(--text-light);font-size:13px;border:1px dashed var(--border);">
+                        <div style="font-size:24px;margin-bottom:8px;">📅</div>
+                        Belum ada sesi lainnya hari ini.
+                    </div>`;
+            }
+        } catch (err) {
+            console.error("Gagal memuat jadwal aktif:", err);
+            container.innerHTML = '<p>Gagal memuat jadwal aktif.</p>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadJadwalKonselor();
+        loadPermintaanBaru();
+        loadJadwalAktif();
+    });
+  </script>
+</body>
+</html>
